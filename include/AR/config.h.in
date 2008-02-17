@@ -10,21 +10,21 @@
 
 // The MAJOR version number defines non-backwards compatible
 // changes in the ARToolKit API. Range: [0-99].
-#define AR_HEADER_VERSION_MAJOR		2
+#define AR_HEADER_VERSION_MAJOR		@ARTOOLKIT_VERSION_MAJOR@
 
 // The MINOR version number defines additions to the ARToolKit
 // API, or (occsasionally) other significant backwards-compatible
 // changes in runtime functionality. Range: [0-99].
-#define AR_HEADER_VERSION_MINOR		72
+#define AR_HEADER_VERSION_MINOR		@ARTOOLKIT_VERSION_MINOR@
 
 // The TINY version number defines bug-fixes to existing
 // functionality. Range: [0-99].
-#define AR_HEADER_VERSION_TINY		0
+#define AR_HEADER_VERSION_TINY		@ARTOOLKIT_VERSION_TINY@
 
 // The BUILD version number will always be zero in releases,
 // but may be non-zero in internal builds or in version-control
 // repository-sourced code. Range: [0-99].
-#define AR_HEADER_VERSION_BUILD		0
+#define AR_HEADER_VERSION_BUILD		@ARTOOLKIT_VERSION_REV@
 
 // The string representation below must match the major, minor
 // and tiny release numbers.
@@ -73,6 +73,13 @@
 #undef  AR_INPUT_DV
 #undef  AR_INPUT_1394CAM
 #undef  AR_INPUT_GSTREAMER
+
+/* 
+ * CMake based configure
+ */
+#if (@USE_GSTREAMER@ == 1)
+#define AR_INPUT_GSTREAMER 1
+#endif
 
 #  ifdef AR_INPUT_V4L
 #    ifdef USE_EYETOY
