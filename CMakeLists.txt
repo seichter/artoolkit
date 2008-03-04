@@ -1,6 +1,12 @@
+##############################################################################
+# CMake build system for ARToolKit 2.7.x                                     #
+#                                                                            #
+# (c) Copyright 2007-2008, HITLabNZ, Hartmut Seichter                        #
+##############################################################################
+
 PROJECT(ARToolKit)
 
-SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules")
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules" ${CMAKE_MODULE_PATH})
 
 SET(ARTOOLKIT_VERSION_MAJOR 2)
 SET(ARTOOLKIT_VERSION_MINOR 72)
@@ -10,19 +16,6 @@ SET(ARTOOLKIT_VERSION_REV   99)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib)
 
-
-CONFIGURE_FILE(
-	${CMAKE_SOURCE_DIR}/bin/Data/camera_para.dat 
-	${CMAKE_BINARY_DIR}/bin/Data/camera_para.dat 
-	COPYONLY
-)
-
-CONFIGURE_FILE(
-	${CMAKE_SOURCE_DIR}/bin/Data/patt.hiro 
-	${CMAKE_BINARY_DIR}/bin/Data/patt.hiro
-	COPYONLY
-)
-	
 
 IF   (APPLE)
 	SET(CMAKE_OSX_ARCHITECTURES ppc;i386)
@@ -39,6 +32,10 @@ IF   (UNIX)
 	ENDIF(GSTREAMER_FOUND)
 ENDIF(UNIX)
 
+# right order of include files is important
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR}/include)
+
+INCLUDE(ARToolKitHelper)
 
 ADD_SUBDIRECTORY(lib)
 ADD_SUBDIRECTORY(util)

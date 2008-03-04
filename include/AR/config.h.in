@@ -75,11 +75,14 @@
 #undef  AR_INPUT_GSTREAMER
 
 /* 
- * CMake based configure
+ * CMake based configuration:
  */
-#if (@USE_GSTREAMER@ == 1)
+#define USE_GSTREAMER @USE_GSTREAMER@
+
+#if (USE_GSTREAMER)
 #define AR_INPUT_GSTREAMER 1
 #endif
+
 
 #  ifdef AR_INPUT_V4L
 #    ifdef USE_EYETOY

@@ -4,12 +4,13 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
 CONFIGURE_FILE(
 	${CMAKE_SOURCE_DIR}/include/${LIB_NAME}/config.h.in
-	${CMAKE_SOURCE_DIR}/include/${LIB_NAME}/config.h
+	${CMAKE_BINARY_DIR}/include/${LIB_NAME}/config.h
 	)
+
 
 FILE(GLOB SRCS *.c)
 
-SET(HDRS ${HDRS} ${CMAKE_SOURCE_DIR}/include/AR/config.h)
+SET(HDRS ${HDRS} ${CMAKE_BINARY_DIR}/include/AR/config.h)
 SET(HDRS ${HDRS} ${CMAKE_SOURCE_DIR}/include/AR/ar.h)
 
 ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
