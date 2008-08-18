@@ -1,15 +1,40 @@
-SET(LIB_NAME ARgsub)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+find_package(OpenGL)
+find_package(GLUT)
 
-SET(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsub.h)
 
-FILE(GLOB SRCS gsub.c)
+if(GLUT_FOUND)
 
-ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
+	set(LIB_NAME ARgsub)
 
-TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
+	include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR})
 
+	set(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsub.h)
+
+	file(GLOB SRCS gsub.c)
+
+	add_library(${LIB_NAME} ${HDRS} ${SRCS})
+
+	target_link_libraries(${LIB_NAME} AR ${OPENGL_LIBRARY} ${GLUT_LIBRARIES})
+	
+	artoolkit_lib_install(${LIB_NAME})
+	
+	include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR})
+	
+	set(LIB_NAME ARgsubUtil)
+
+	set(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsubUtil.h)
+
+	file(GLOB SRCS gsubUtil.c)
+
+	add_library(${LIB_NAME} ${HDRS} ${SRCS})
+
+	target_link_libraries(${LIB_NAME} AR)
+	
+	
+	artoolkit_lib_install(${LIB_NAME})
+	
+endif(GLUT_FOUND)
 
 SET(LIB_NAME ARgsub_lite)
 
@@ -23,18 +48,12 @@ ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
 
 TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
 
+artoolkit_lib_install(${LIB_NAME})
 
-SET(LIB_NAME ARgsubUtil)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
-SET(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsubUtil.h)
 
-FILE(GLOB SRCS gsubUtil.c)
 
-ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
-
-TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
 
 
 

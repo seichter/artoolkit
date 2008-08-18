@@ -1,14 +1,18 @@
 # Core library
-ADD_SUBDIRECTORY(AR)
-ADD_SUBDIRECTORY(ARMulti)
+add_subdirectory(AR)
+add_subdirectory(ARMulti)
 
 # GL utility
-ADD_SUBDIRECTORY(Gl)
+add_subdirectory(Gl)
 
 # Video
 IF   (APPLE)
 	ADD_SUBDIRECTORY(VideoMacOSX)
 ENDIF(APPLE)
+
+if(WIN32)
+	add_subdirectory(VideoWin32DirectShow)
+endif(WIN32)
 
 IF   (UNIX)
 	IF   (USE_GSTREAMER)
