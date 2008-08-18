@@ -1,0 +1,47 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyXmlTest", "tinyXmlTest.vcproj", "{235C0641-2EC3-44C6-BB54-A13CAD1F52BC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57FEC541-722C-49D2-B59B-012260568CD9} = {57FEC541-722C-49D2-B59B-012260568CD9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyXmlTestSTL", "tinyXmlTestSTL.vcproj", "{881FD20F-E1B2-40BE-9120-66BB3F03F9CB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E} = {B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml_lib.vcproj", "{57FEC541-722C-49D2-B59B-012260568CD9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxmlSTL", "tinyxmlSTL.vcproj", "{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{235C0641-2EC3-44C6-BB54-A13CAD1F52BC}.Debug.ActiveCfg = Debug|Win32
+		{235C0641-2EC3-44C6-BB54-A13CAD1F52BC}.Debug.Build.0 = Debug|Win32
+		{235C0641-2EC3-44C6-BB54-A13CAD1F52BC}.Release.ActiveCfg = Release|Win32
+		{235C0641-2EC3-44C6-BB54-A13CAD1F52BC}.Release.Build.0 = Release|Win32
+		{881FD20F-E1B2-40BE-9120-66BB3F03F9CB}.Debug.ActiveCfg = Debug|Win32
+		{881FD20F-E1B2-40BE-9120-66BB3F03F9CB}.Debug.Build.0 = Debug|Win32
+		{881FD20F-E1B2-40BE-9120-66BB3F03F9CB}.Release.ActiveCfg = Release|Win32
+		{881FD20F-E1B2-40BE-9120-66BB3F03F9CB}.Release.Build.0 = Release|Win32
+		{57FEC541-722C-49D2-B59B-012260568CD9}.Debug.ActiveCfg = Debug|Win32
+		{57FEC541-722C-49D2-B59B-012260568CD9}.Debug.Build.0 = Debug|Win32
+		{57FEC541-722C-49D2-B59B-012260568CD9}.Release.ActiveCfg = Release|Win32
+		{57FEC541-722C-49D2-B59B-012260568CD9}.Release.Build.0 = Release|Win32
+		{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}.Debug.ActiveCfg = Debug|Win32
+		{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}.Debug.Build.0 = Debug|Win32
+		{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}.Release.ActiveCfg = Release|Win32
+		{B6CFB62B-8F92-4C3F-B488-EBFA215C8B5E}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

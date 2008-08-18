@@ -1,0 +1,57 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSVL", "src\DSVL.vcproj", "{BFA16123-9EB6-4641-A33F-9FFD7511AD5D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glutSample", "src\glutSample.vcproj", "{826D36FB-3301-4A56-A8D4-343D84D2941E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BFA16123-9EB6-4641-A33F-9FFD7511AD5D} = {BFA16123-9EB6-4641-A33F-9FFD7511AD5D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEEE1394_id", "src\IEEE1394_id.vcproj", "{BC55969A-78AA-4C47-AB02-CA04409C6EF8}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{BFA16123-9EB6-4641-A33F-9FFD7511AD5D}.Debug.ActiveCfg = Debug|Win32
+		{BFA16123-9EB6-4641-A33F-9FFD7511AD5D}.Debug.Build.0 = Debug|Win32
+		{BFA16123-9EB6-4641-A33F-9FFD7511AD5D}.Release.ActiveCfg = Release|Win32
+		{BFA16123-9EB6-4641-A33F-9FFD7511AD5D}.Release.Build.0 = Release|Win32
+		{826D36FB-3301-4A56-A8D4-343D84D2941E}.Debug.ActiveCfg = Debug|Win32
+		{826D36FB-3301-4A56-A8D4-343D84D2941E}.Debug.Build.0 = Debug|Win32
+		{826D36FB-3301-4A56-A8D4-343D84D2941E}.Release.ActiveCfg = Release|Win32
+		{826D36FB-3301-4A56-A8D4-343D84D2941E}.Release.Build.0 = Release|Win32
+		{BC55969A-78AA-4C47-AB02-CA04409C6EF8}.Debug.ActiveCfg = Debug|Win32
+		{BC55969A-78AA-4C47-AB02-CA04409C6EF8}.Debug.Build.0 = Debug|Win32
+		{BC55969A-78AA-4C47-AB02-CA04409C6EF8}.Release.ActiveCfg = Release|Win32
+		{BC55969A-78AA-4C47-AB02-CA04409C6EF8}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+	GlobalSection(DevPartner) = postSolution
+	EndGlobalSection
+EndGlobal

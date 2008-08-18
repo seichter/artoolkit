@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="dsvl_input">
+		<xs:annotation>
+			<xs:documentation>Version 1.1</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="camera"/>
+				<xs:element ref="avi_file"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="camera">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="pixel_format"/>
+			</xs:all>
+			<xs:attribute name="show_format_dialog" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Displays either the WDM capture filter's property page or the MSDV decoder format dialog (depending on source media type).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="device_name" type="xs:string" use="optional" default="">
+				<xs:annotation>
+					<xs:documentation>Used to select preferred WDM device, i.e. try to match a given substring with the "device names" of enumerated DirectShow WDM wrappers (ksproxy.ax). Device names look like: "@device:*:{860BB310-5D01-11d0-BD3B-00A0C911CE86}". Use GraphEdit (part of the DirectX SDK, under \DXSDK\bin\DxUtils\graphedt.exe) to figure out your camera's device name. Specifying a device name will always override the friendly name attribute!</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="friendly_name" type="xs:string" use="optional" default="">
+				<xs:annotation>
+					<xs:documentation>Used to select a preferred WDM device (WARNING: WDM "friendly names" are locale-dependent), i.e. try to match a given substring with the "friendly names" of enumerated DirectShow WDM wrappers (ksproxy.ax).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ieee1394id" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Selects a device by its unique 64-bit device identifier, as defined by the IEEE 1394 standard. Hexadecimal value expected, i.e. "437d3b0201460008". Use the IEEE 1394 ID-Tool (/bin/IEEE394_id.exe) to determine your camera's ID. Only applies to DV camcorders!</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="frame_width" type="xs:positiveInteger" use="optional" default="640">
+				<xs:annotation>
+					<xs:documentation>Preferred video width, e.g. 720 for PAL-D1 (720x576).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="frame_height" type="xs:positiveInteger" use="optional" default="480">
+				<xs:annotation>
+					<xs:documentation> Preferred video height, e.g. 576 for PAL-D1 (720x567).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="frame_rate" type="xs:double" use="optional" default="30.0">
+				<xs:annotation>
+					<xs:documentation>Preferred frame rate in frames per second (fps), e.g. 25.0 for PAL or 30.0 for NTSC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="avi_file">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="pixel_format"/>
+			</xs:all>
+			<xs:attribute name="file_name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the input file name, if it's just a file name (without its full path), the WIN32 API fuction SearchPath() (Winbase.h) will be used to locate the file. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="use_reference_clock" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Do not use a ReferenceClock to synchronize samples; use this flag for offline post-processing.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="loop_avi" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Continuously loop through an AVI file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="render_secondary" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Render secondary streams. An AVI file can contain an arbitrary number of multiplexed A/V substreams, usually there are at most 2 substreams (1st: video, 2nd: audio). DSVideoLib will only try to render stream 0x00 (assuming that it's video) and ignore the remaning substreams. Use this flag to force IGraphBuilder->Render(IPin*) calls on substreams 1..n, but DO NOT SET this flag if your AVI file contains more than one video stream.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pixel_format">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="RGB32">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_RGB32. 32 bits per pixel. Uncompressed RGB samples. Alpha bits are not used with this media type.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="flip_h" type="xs:boolean" use="optional"/>
+						<xs:attribute name="flip_v" type="xs:boolean" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RGB24">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_RGB24. 24 bits per pixel. Uncompressed RGB samples.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RGB565">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_RGB565. 16 bits per pixel. Uncompressed RGB samples.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RGB555">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_RGB555. 16 bits per pixel. Uncompressed RGB samples.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="UYVY">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_UYVY. A packed YUV format. A Y sample at every pixel, a U and V sample at every second pixel horizontally on each line; every vertical line sampled. Probably the most popular of the various YUV 4:2:2 formats. Byte ordering (lowest first) is U0, Y0, V0, Y1, U2, Y2, V2, Y3, U4, Y4, V4, Y5, where the suffix 0 is the leftmost pixel and increasing numbers are pixels increasing left to right. Each 4-byte block is 2 image pixels.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="YUY2">
+					<xs:annotation>
+						<xs:documentation>MEDIASUBTYPE_YUY2. YUY2 format data. Same as UYVY but with different pixel ordering. Byte ordering (lowest first) is Y0, U0, Y1, V0, Y2, U2, Y3, V2, Y4, U4, Y5, V4, where the suffix 0 is the leftmost pixel and increasing numbers are pixels increasing left to right. Each 4-byte block is 2 image pixels.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
