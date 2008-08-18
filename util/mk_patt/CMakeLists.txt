@@ -2,9 +2,16 @@ SET(EXE_NAME mk_patt)
 
 SET(SRCS mk_patt.c)
 
-INCLUDE(FindOpenGL)
-INCLUDE(FindGLUT)
+if(GLUT_FOUND)
 
-ARTOOLKIT_EXECUTABLE(${EXE_NAME} ${SRCS})
+	add_definitions(${GLUT_DEFS})
 
-TARGET_LINK_LIBRARIES(${EXE_NAME} AR ARgsub_lite ARvideo ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+	include_directories(${GLUT_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+
+	ARTOOLKIT_EXECUTABLE(${EXE_NAME} ${SRCS})
+
+	target_link_libraries(${EXE_NAME} AR ARgsub_lite ARvideo ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+	
+	artoolkit_exe_install(${EXE_NAME})
+	
+endif(GLUT_FOUND)

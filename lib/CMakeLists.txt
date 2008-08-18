@@ -1,1 +1,1 @@
-ADD_SUBDIRECTORY(SRC)
+add_subdirectory(SRC)

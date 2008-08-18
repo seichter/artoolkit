@@ -1,0 +1,55 @@
+#
+# CPack template for ARToolKit
+#
+# (c) Copyrights 2008 Hartmut Seichter, HIT Lab NZ
+#
+
+include(InstallRequiredSystemLibraries)
+
+set(CPACK_PACKAGE_NAME "ARToolKit")
+set(CPACK_PACKAGE_VENDOR "Human Interface Technology Laboratory New Zealand")
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ARToolKit for ${CMAKE_GENERATOR} is an All-In-One package for developing AR applications")
+
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
+
+set(CPACK_PACKAGE_VERSION_MAJOR ${ARTOOLKIT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${ARTOOLKIT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${ARTOOLKIT_VERSION_TINY})
+
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "ARToolKit2SDK")
+
+set(CPACK_PACKAGE_EXECUTABLES "mk_patt;Make Pattern;simpleLite;Simple Example")
+
+if(WIN32)
+
+	#
+	# For MSVC compilers (and probably others) we need to copy the runtime
+	# to the plugins folder as well
+	# 
+		
+	set(CPACK_NSIS_MENU_LINKS
+		"bin" "ARToolKit application folder"	
+		"share/osgART/ChangeLog.txt" "ARToolKit 2.0 ChangeLog"
+		"share/artoolkit2/README.txt" "ARToolKit ReadMe"
+		"share/artoolkit2/COPYING.txt" "ARToolKit GPL2 License"
+		"share/osgART/doc/html/index.html" "osgART 2.0 API Documentation"
+		"http://artoolkit.sourceforge.net" "ARToolKit website"
+		"http://www.hitlabnz.org" "HIT Lab NZ website"
+		"http://www.artoolworks.com" "ARToolworks website"
+    )
+	
+	set(CPACK_NSIS_HELP_LINK "http:\\\\\\\\artoolkit.sourceforge.net")
+	set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\artoolkit.sourceforge.net")
+	set(CPACK_NSIS_CONTACT "info@hitlabnz.org")
+ 	set(CPACK_NSIS_DISPLAY_NAME "ARToolKit GPL SDK")
+	
+else(WIN32)
+	if   (APPLE)
+		set(CPACK_GENERATOR "PackageMaker;STGZ")
+		INCLUDE(CPack)
+	endif(APPLE)
+endif(WIN32)	
+	
+include(CPack)

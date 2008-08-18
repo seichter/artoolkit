@@ -1,10 +1,11 @@
-SET(EXE_NAME simpleLite)
+set(EXE_NAME simpleLite)
 
-SET(SRCS simpleLite.c)
+set(SRCS simpleLite.c)
 
-INCLUDE(FindOpenGL)
-INCLUDE(FindGLUT)
+include_directories(${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
 
-ARTOOLKIT_EXECUTABLE(${EXE_NAME} ${SRCS})
+artoolkit_executable(${EXE_NAME} ${SRCS})
 
-TARGET_LINK_LIBRARIES(${EXE_NAME} AR ARgsub_lite ARvideo ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+target_link_libraries(${EXE_NAME} AR ARgsub_lite ARvideo ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+
+artoolkit_exe_install(${EXE_NAME})
