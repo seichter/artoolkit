@@ -19,6 +19,16 @@ set(ARTOOLKIT_VERSION_MINOR 72)
 set(ARTOOLKIT_VERSION_TINY  3)
 set(ARTOOLKIT_VERSION_REV   99)
 
+#
+# Depending on what is available we work our way through
+#
+find_package(OpenGL)
+find_package(GLUT)
+
+
+#
+# Preset some of the output directories
+# 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin CACHE PATH "Executable output folder")
 set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library output folder")
 
@@ -27,13 +37,16 @@ set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library output fo
 #
 if(MSVC)
 
-	set(GLUT_ROOT_PATH "${CMAKE_SOURCE_DIR}/lib/SRC/_ext/glut-3.7.6-bin" CACHE PATH "GLUT root folder")
-	set(GLUT_glut_LIBRARY "${CMAKE_SOURCE_DIR}/lib/SRC/_ext/glut-3.7.6-bin/lib/glut32.lib" CACHE FILENAME "GLUT include library")
-	
-	install(FILES
-		${CMAKE_SOURCE_DIR}/lib/SRC/_ext/glut-3.7.6-bin/lib/glut32.dll
-		DESTINATION bin
-	)
+	set(FREEGLUT_ROOT_DIR "lib/SRC/_ext/freeglut")
+
+	# compile internal GLUT copy
+	add_subdirectory(${FREEGLUT_ROOT_DIR}/src)
+
+	#
+	# Add our internal copy of FreeGLUT
+	#
+	set(GLUT_ROOT_PATH "${CMAKE_SOURCE_DIR}/${FREEGLUT_ROOT_DIR}" CACHE PATH "GLUT root folder")
+	set(GLUT_LIBRARIES glut)
 	
 endif(MSVC)
 
@@ -50,13 +63,6 @@ install(FILES
 	README.txt
 	DESTINATION share/artoolkit_2
 	)
-			
-#
-# Depending on what is available we work our way through
-#
-find_package(OpenGL)
-find_package(GLUT)
-
 
 if   (APPLE)
 	set(CMAKE_OSX_ARCHITECTURES ppc;i386)

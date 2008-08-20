@@ -28,12 +28,9 @@
 *  Vienna, Austria.
 * ========================================================================*/
 
-#include <atlbase.h>
-#include <dshow.h>
-#include <qedit.h>
-#include <comutil.h>
 
 #include "DSVL_Helpers.h"
+
 
 #include <cstring>
 #include <cstdlib>

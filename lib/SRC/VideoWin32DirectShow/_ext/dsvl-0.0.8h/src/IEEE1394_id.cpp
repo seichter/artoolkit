@@ -33,6 +33,12 @@
 //#include <streams.h>
 #include <atlbase.h>
 #include <dshow.h>
+
+#define __IDxtCompositor_INTERFACE_DEFINED__
+#define __IDxtAlphaSetter_INTERFACE_DEFINED__
+#define __IDxtJpeg_INTERFACE_DEFINED__
+#define __IDxtKey_INTERFACE_DEFINED__
+
 #include <qedit.h>
 #include <atlbase.h>
 #include <comutil.h>

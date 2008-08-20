@@ -1,3 +1,10 @@
+##############################################################################
+# CMake build system for ARToolKit 2.7.x                                     #
+#                                                                            #
+# (c) Copyright 2007-2008, HITLabNZ, Hartmut Seichter                        #
+##############################################################################
+
+
 # Core library
 add_subdirectory(AR)
 add_subdirectory(ARMulti)
@@ -6,16 +13,16 @@ add_subdirectory(ARMulti)
 add_subdirectory(Gl)
 
 # Video
-IF   (APPLE)
-	ADD_SUBDIRECTORY(VideoMacOSX)
-ENDIF(APPLE)
+if(APPLE)
+	add_subdirectory(VideoMacOSX)
+endif(APPLE)
 
 if(WIN32)
 	add_subdirectory(VideoWin32DirectShow)
 endif(WIN32)
 
-IF   (UNIX)
-	IF   (USE_GSTREAMER)
-		ADD_SUBDIRECTORY(VideoGStreamer)
-	ENDIF(USE_GSTREAMER)
-ENDIF(UNIX)
+if(UNIX)
+	if(USE_GSTREAMER)
+		add_subdirectory(VideoGStreamer)
+	endif(USE_GSTREAMER)
+endif(UNIX)

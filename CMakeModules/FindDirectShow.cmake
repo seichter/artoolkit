@@ -8,12 +8,28 @@ SET(DIRECTSHOW_FOUND "NO")
 
 # DirectShow is only available on Windows platforms
 IF(MSVC)
+
+  set(MS_PLATFORMSDK_ROOT "")
+  if (MSVC71)  
+	# 
+	# On Visual Studio 2003 .NET (VS7.1) use the internal platform SDK
+	#
+	set(MS_PLATFORMSDK_ROOT "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\7.1\\Setup\\VC;ProductDir]/PlatformSDK")
+  else(MSVC71)  
+	#
+	# Otherwise use the Windows SDK - remember you need to patch the qedit.h header!
+	#   
+	set(MS_PLATFORMSDK_ROOT "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Microsoft SDKs\\Windows;CurrentInstallFolder]")	
+	#
+	# emit a message 
+	#
+	message(STATUS "Remember to patch (remove dxtrans.h) the qedit.h header in the Windows SDK (${MS_PLATFORMSDK_ROOT})")
+  endif(MSVC71)
+  
   # Find DirectX Include Directory (dshow depends on it)
   FIND_PATH(DIRECTX_INCLUDE_DIR ddraw.h
-    # WindowsSDK: includes ddraw and dshow
-    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Microsoft SDKs\\Windows;CurrentInstallFolder]/Include"
-    # VS 7.1 PlatformSDK: includes ddraw and dshow
-    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\7.1\\Setup\\VC;ProductDir]/PlatformSDK/Include"
+    # Visual Studio product based PlatformSDK/Windows SDK
+	${MS_PLATFORMSDK_ROOT}/Include
     # Newer DirectX: dshow not included; requires Platform SDK
     "$ENV{DXSDK_DIR}/Include"
     # Older DirectX: dshow included
@@ -26,8 +42,8 @@ IF(MSVC)
   IF(DIRECTX_INCLUDE_DIR)
     FIND_PATH(DIRECTSHOW_INCLUDE_DIR dshow.h
       "${DIRECTX_INCLUDE_DIR}"
-      "C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Include"
-      "C:/Program Files/Microsoft Platform SDK/Include"
+      "$ENV{ProgramFiles}/Microsoft Platform SDK for Windows Server 2003 R2/Include"
+      "$ENV{ProgramFiles}/Microsoft Platform SDK/Include"
       DOC "What is the path where the file dshow.h can be found"
       NO_DEFAULT_PATH
     )
@@ -80,8 +96,20 @@ INCLUDE (CheckCXXSourceCompiles)
 SET(CMAKE_REQUIRED_INCLUDES  ${DIRECTSHOW_INCLUDE_DIRS})
 SET(CMAKE_REQUIRED_LIBRARIES ${DIRECTSHOW_LIBRARIES})
 CHECK_CXX_SOURCE_COMPILES("
+
+
   #include <atlbase.h>
   #include <dshow.h>
+  
+  // dxtrans.h is missing in latest SDKs 
+  // please comment out dxtrans.h in qedit h
+  // and use the following block before including qedit.h in
+  // your own source code
+  #define __IDxtCompositor_INTERFACE_DEFINED__
+  #define __IDxtAlphaSetter_INTERFACE_DEFINED__
+  #define __IDxtJpeg_INTERFACE_DEFINED__
+  #define __IDxtKey_INTERFACE_DEFINED__
+  
   #include <qedit.h>
 
   int main()
