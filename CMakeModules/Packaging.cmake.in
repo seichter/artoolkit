@@ -11,8 +11,9 @@ set(CPACK_PACKAGE_VENDOR "Human Interface Technology Laboratory New Zealand")
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ARToolKit for ${CMAKE_GENERATOR} is an All-In-One package for developing AR applications")
 
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.txt")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.txt")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CPACK_RESOURCE_FILE_README})
 
 set(CPACK_PACKAGE_VERSION_MAJOR ${ARTOOLKIT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${ARTOOLKIT_VERSION_MINOR})
@@ -24,6 +25,7 @@ set(CPACK_PACKAGE_EXECUTABLES "videoTest;Test Video Capture;graphicsTest;Test Gr
 
 if(WIN32)
 
+	# we focus on using NSIS for Windows - thus add some more icons
 	set(CPACK_NSIS_MENU_LINKS
 		"bin" "ARToolKit application folder"
 		"${ARTOOLKIT_SHARE_FOLDER}/ChangeLog.txt" "ARToolKit ${ARTOOLKIT_VERSION_FULL} ChangeLog"
@@ -45,9 +47,12 @@ if(WIN32)
 	
 else(WIN32)
 	if   (APPLE)
-		set(CPACK_GENERATOR "PackageMaker;STGZ")
-		INCLUDE(CPack)
+		# only use the PackageMaker version on Mac
+		set(CPACK_GENERATOR "PackageMaker")
 	endif(APPLE)
-endif(WIN32)	
-	
+endif(WIN32)
+
+#
+# And finally include CPack
+#
 include(CPack)

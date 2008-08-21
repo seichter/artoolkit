@@ -180,3 +180,11 @@ macro(artoolkit_utility_glut name source_files)
 	artoolkit_exe_install(${exe_name})	
 
 endmacro(artoolkit_utility_glut name source_files)
+
+
+macro(artoolkit_framework)
+	
+	
+
+endmacro(artoolkit_framework)
+

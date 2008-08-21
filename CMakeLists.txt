@@ -40,6 +40,14 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin CACHE PATH "Executable output
 set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library output folder")
 
 #
+# Apple presets
+#
+if   (APPLE)
+	set(CMAKE_OSX_ARCHITECTURES ppc;i386)
+	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk CACHE PATH "SDK to link against")
+endif(APPLE)
+
+#
 # Preset for Visual Studio products
 #
 if(MSVC)
@@ -75,11 +83,6 @@ install(FILES
 	README.txt
 	DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
 	)
-
-if   (APPLE)
-	set(CMAKE_OSX_ARCHITECTURES ppc;i386)
-	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk)
-endif(APPLE)
 
 if   (UNIX)
 	set(USE_GSTREAMER 0)
