@@ -20,7 +20,7 @@ if(GLUT_FOUND)
 
 	target_link_libraries(${LIB_NAME} AR ${OPENGL_LIBRARY} ${GLUT_LIBRARIES})
 	
-	artoolkit_lib_install(${LIB_NAME})
+	artoolkit_install(${LIB_NAME})
 	
 	include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR})
 	
@@ -41,7 +41,7 @@ if(GLUT_FOUND)
 
 	target_link_libraries(${LIB_NAME} AR)	
 	
-	artoolkit_lib_install(${LIB_NAME})
+	artoolkit_install(${LIB_NAME})
 	
 	install(FILES ${HDRS}
 		DESTINATION include/AR
@@ -66,7 +66,7 @@ ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
 
 TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
 
-artoolkit_lib_install(${LIB_NAME})
+artoolkit_install(${LIB_NAME})
 
 install(FILES ${HDRS}
 	DESTINATION include/AR

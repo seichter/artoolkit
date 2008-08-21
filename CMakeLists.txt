@@ -31,7 +31,7 @@ set(ARTOOLKIT_SHARE_FOLDER share/artoolkit-${ARTOOLKIT_VERSION_SHORT})
 #
 find_package(OpenGL)
 find_package(GLUT)
-
+find_package(GStreamer)
 
 #
 # Preset some of the output directories
@@ -68,12 +68,13 @@ endif(MSVC)
 if(WIN32)
 	install(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Data
 		DESTINATION bin
-		PATTERN ".svn" EXCLUDE	
+		PATTERN ".svn" EXCLUDE
 	)
 else(WIN32)
 	install(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Data
 		DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
-		PATTERN ".svn" EXCLUDE	
+		PATTERN ".svn" EXCLUDE
+		PATTERN "WDM_camera_*" EXCLUDE	
 	)	
 endif(WIN32)
 
@@ -84,14 +85,10 @@ install(FILES
 	DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
 	)
 
-if   (UNIX)
-	set(USE_GSTREAMER 0)
-
-	include(FindGStreamer)
-
-	if(GSTREAMER_FOUND)
+if(UNIX)
+	if(GSTREAMER_INCLUDE_DIR AND GSTREAMER_LIBRARIES)
 		SET(USE_GSTREAMER 1)
-	endif(GSTREAMER_FOUND)
+	endif(GSTREAMER_INCLUDE_DIR AND GSTREAMER_LIBRARIES)
 endif(UNIX)
 
 # right order of include files is important
@@ -115,6 +112,19 @@ install(DIRECTORY doc
 # Install the pattern files
 #	
 add_subdirectory(patterns)
+
+
+#
+# Uninstall
+#
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/cmake_uninstall.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+  IMMEDIATE @ONLY)
+  
+add_custom_target(uninstall
+  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
 
 #
 # Optional packaging for SDK

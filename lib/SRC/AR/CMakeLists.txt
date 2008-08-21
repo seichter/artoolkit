@@ -56,12 +56,7 @@ set(HDRS ${HDRS} ${CMAKE_SOURCE_DIR}/include/AR/ar.h)
 
 add_library(${LIB_NAME} ${SRCS} ${HDRS})
 
-install(TARGETS AR
-	ARCHIVE DESTINATION lib	
-	RUNTIME DESTINATION bin
-	PUBLIC_HEADER DESTINATION include/AR
-	)
-	
+artoolkit_install(${LIB_NAME})	
 	
 install(FILES ${HDRS}
 	DESTINATION include/AR

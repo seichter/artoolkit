@@ -1,31 +1,38 @@
 # some simple macros to inject files into bundles
 
-macro(artoolkit_executable EXE_NAME SRCS)
-	set(_datafiles 
-		${CMAKE_SOURCE_DIR}/bin/Data/camera_para.dat
-		${CMAKE_SOURCE_DIR}/bin/Data/object_data
-		${CMAKE_SOURCE_DIR}/bin/Data/object_data2
-		${CMAKE_SOURCE_DIR}/bin/Data/paddle_data
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.hiro
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.kanji
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.sample1
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.sample2
-		${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
-		${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera_flipV.xml
-		${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera.xml
-	)
+set(ARTOOLKIT_FILES_DATA
+	${CMAKE_SOURCE_DIR}/bin/Data/camera_para.dat
+	${CMAKE_SOURCE_DIR}/bin/Data/object_data
+	${CMAKE_SOURCE_DIR}/bin/Data/object_data2
+	${CMAKE_SOURCE_DIR}/bin/Data/paddle_data
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.hiro
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.kanji
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.sample1
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.sample2
+	${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
+	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera_flipV.xml
+	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera.xml
+)
 
-	set(_datafiles_multi 
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/marker.dat
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.a
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.b
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.c
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.d
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.f
-		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.g
-	)
-		
+set(ARTOOLKIT_FILES_DATA_WIN32
+	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera_flipV.xml
+	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera.xml
+)
+
+set(ARTOOLKIT_FILES_DATA_MULTI
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/marker.dat
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.a
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.b
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.c
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.d
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.f
+	${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.g
+)
+
+
+macro(artoolkit_executable EXE_NAME SRCS)
+	
 	if(APPLE)
 	
 		set(MACOSX_BUNDLE_BUNDLE_NAME           ${EXE_NAME})
@@ -41,29 +48,29 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			MACOSX_PACKAGE_LOCATION "Resources"
 			)
 		set_source_files_properties(
-			${_datafiles}
+			${ARTOOLKIT_FILES_DATA}
 			PROPERTIES
 			HEADER_FILE_ONLY TRUE
 			MACOSX_PACKAGE_LOCATION "Resources/Data"
 			)
 		set_source_files_properties(
-			${_datafiles_multi}
+			${ARTOOLKIT_FILES_DATA_MULTI}
 			PROPERTIES
 			HEADER_FILE_ONLY TRUE
 			MACOSX_PACKAGE_LOCATION "Resources/Data/multi"
 			)
 			
 		add_executable(${EXE_NAME} MACOSX_BUNDLE 
-			${${SRCS}} ${_datafiles} ${_datafiles_multi}
-			${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
+			${${SRCS}} ${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
 			)
 			
 	else(APPLE)
-		add_executable(${EXE_NAME} ${${SRCS}} ${_datafiles} ${_datafiles_multi})
+		add_executable(${EXE_NAME} ${${SRCS}})
 	endif(APPLE)
 endmacro(artoolkit_executable)
 
-macro(artoolkit_lib_install target)
+
+macro(artoolkit_install target)
 
 	if   (WIN32)
 		set(lib_dest bin)
@@ -72,32 +79,33 @@ macro(artoolkit_lib_install target)
 	endif(WIN32)
 		
 
+	if (CMAKE_VERSION MATCHES 2.6)
 	install(TARGETS ${target}
 		ARCHIVE DESTINATION lib
 		LIBRARY DESTINATION ${lib_dest}	
 		RUNTIME DESTINATION bin
 		PUBLIC_HEADER DESTINATION include/AR
 		)
+	elseif(CMAKE_VERSION MATCHES 2.6)
+	install(TARGETS ${target}
+		ARCHIVE DESTINATION lib
+		LIBRARY DESTINATION ${lib_dest}	
+		RUNTIME DESTINATION bin
+		PUBLIC_HEADER DESTINATION include/AR
+		)
+	endif(CMAKE_VERSION MATCHES 2.6)
+		
+endmacro(artoolkit_install target)
+
+
+
+macro(artoolkit_lib_install target)
+
+	artoolkit_install(target)
 		
 endmacro(artoolkit_lib_install target)
 
-macro(artoolkit_exe_install target)
 
-	if   (WIN32)
-		set(lib_dest bin)
-	else (WIN32)
-		set(lib_dest lib)
-	endif(WIN32)
-
-	install(TARGETS ${target}
-		ARCHIVE DESTINATION lib
-		LIBRARY DESTINATION ${lib_dest}	
-		RUNTIME DESTINATION bin
-		PUBLIC_HEADER DESTINATION include/AR
-		BUNDLE DESTINATION /Applications/ARToolKit-${ARTOOLKIT_VERSION_FULL}
-		)
-		
-endmacro(artoolkit_exe_install target)
 
 
 macro(artoolkit_example_lite name source_files)
@@ -122,7 +130,7 @@ macro(artoolkit_example_lite name source_files)
 		PROJECT_LABEL "Example ${name}"
 	)
 
-	artoolkit_exe_install(${exe_name})	
+	artoolkit_install(${exe_name})	
 
 endmacro(artoolkit_example_lite name source_files)
 
@@ -149,7 +157,7 @@ macro(artoolkit_example_glut name source_files)
 		PROJECT_LABEL "Example ${name}"
 	)
 
-	artoolkit_exe_install(${exe_name})	
+	artoolkit_install(${exe_name})	
 
 endmacro(artoolkit_example_glut name source_files)
 
@@ -177,7 +185,7 @@ macro(artoolkit_utility_glut name source_files)
 		PROJECT_LABEL "Utility ${name}"
 	)
 
-	artoolkit_exe_install(${exe_name})	
+	artoolkit_install(${exe_name})	
 
 endmacro(artoolkit_utility_glut name source_files)
 

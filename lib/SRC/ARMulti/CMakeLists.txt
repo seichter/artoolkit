@@ -14,12 +14,8 @@ set(HDRS
 
 add_library(${lib_name} STATIC ${HDRS} ${SRCS})
 
-install(TARGETS ${lib_name}
-	ARCHIVE DESTINATION lib	
-	RUNTIME DESTINATION bin
-	PUBLIC_HEADER DESTINATION include/AR
-	)
-	
+
+artoolkit_install(${lib_name})	
 		
 install(FILES ${HDRS}
 	DESTINATION include/AR

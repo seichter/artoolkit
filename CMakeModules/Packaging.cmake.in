@@ -49,7 +49,14 @@ else(WIN32)
 	if   (APPLE)
 		# only use the PackageMaker version on Mac
 		set(CPACK_GENERATOR "PackageMaker")
-	endif(APPLE)
+	elif(APPLE)
+		# use the source and deb package generators if possible
+		set(CPACK_GENERATOR "STGZ;TGZ;DEB")
+
+		# need to set proper dependencies
+		# set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libgcc1 (>= 1:3.4.2-12)")
+
+	endif(APPLE)	
 endif(WIN32)
 
 #
