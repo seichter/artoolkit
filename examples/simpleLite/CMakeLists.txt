@@ -1,13 +1,6 @@
-set(EXE_NAME simpleLite)
 
-set(SRCS simpleLite.c)
+set(srcs
+	simpleLite.c
+	)
 
-include_directories(${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-
-artoolkit_executable(${EXE_NAME} ${SRCS})
-
-message(STATUS "GLUT ${GLUT_LIBRARIES}")
-
-target_link_libraries(${EXE_NAME} AR ARgsub_lite ARvideo ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
-
-artoolkit_exe_install(${EXE_NAME})
+artoolkit_example_lite(simpleLite srcs)
