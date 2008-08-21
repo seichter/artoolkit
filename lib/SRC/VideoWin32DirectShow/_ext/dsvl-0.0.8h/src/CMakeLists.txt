@@ -30,6 +30,14 @@ add_definitions(-DDSVL_EXPORTS -DTIXML_USE_STL)
 
 add_library(DSVL SHARED ${SRCS})
 
+if(NOT CMAKE_PROJECT_NAME MATCHES "DSVL")
+	set_target_properties(DSVL
+		PROPERTIES
+		PROJECT_LABEL "Dependency DirectShow Video Library"
+	)
+endif(NOT CMAKE_PROJECT_NAME MATCHES "DSVL")
+
+
 target_link_libraries(DSVL tinyxml ${DIRECTSHOW_LIBRARIES})
 
 if   (${CMAKE_BUILD_TYPE} MATCHES Debug)

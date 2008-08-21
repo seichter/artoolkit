@@ -5,6 +5,9 @@ find_package(GLUT)
 
 if(GLUT_FOUND)
 
+	#
+	# ARgsub
+	#
 	set(LIB_NAME ARgsub)
 
 	include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR})
@@ -21,6 +24,13 @@ if(GLUT_FOUND)
 	
 	include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR})
 	
+	install(FILES ${HDRS}
+		DESTINATION include/AR
+	)
+
+	#
+	# ARgsubUtil
+	#
 	set(LIB_NAME ARgsubUtil)
 
 	set(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsubUtil.h)
@@ -29,12 +39,20 @@ if(GLUT_FOUND)
 
 	add_library(${LIB_NAME} ${HDRS} ${SRCS})
 
-	target_link_libraries(${LIB_NAME} AR)
-	
+	target_link_libraries(${LIB_NAME} AR)	
 	
 	artoolkit_lib_install(${LIB_NAME})
 	
+	install(FILES ${HDRS}
+		DESTINATION include/AR
+	)
+	
 endif(GLUT_FOUND)
+
+
+#
+# ARgsub lite
+#
 
 SET(LIB_NAME ARgsub_lite)
 
@@ -49,6 +67,12 @@ ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
 TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
 
 artoolkit_lib_install(${LIB_NAME})
+
+install(FILES ${HDRS}
+	DESTINATION include/AR
+	)
+
+
 
 
 

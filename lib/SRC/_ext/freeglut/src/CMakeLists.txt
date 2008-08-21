@@ -54,6 +54,14 @@ add_definitions(-DFREEGLUT_EXPORTS)
 
 add_library(${lib_name} SHARED 	${srcs} ${hdrs} ${public_hdrs})
 
+
+if(NOT CMAKE_PROJECT_NAME MATCHES "FreeGLUT")
+	set_target_properties(${lib_name}
+		PROPERTIES
+		PROJECT_LABEL "Dependency ${lib_name}"
+	)
+endif(NOT CMAKE_PROJECT_NAME MATCHES "FreeGLUT")
+
 target_link_libraries(${lib_name}
 	${OPENGL_LIBRARIES}
 	)
@@ -72,6 +80,8 @@ install(TARGETS glut
 	LIBRARY DESTINATION ${include_lib_dir}
 	ARCHIVE DESTINATION lib
 	)
+	
+install(FILES ${public_hdrs} DESTINATION include/GL)
 	
 	
 	

@@ -19,6 +19,13 @@ set(ARTOOLKIT_VERSION_MINOR 72)
 set(ARTOOLKIT_VERSION_TINY  3)
 set(ARTOOLKIT_VERSION_REV   99)
 
+set(ARTOOLKIT_VERSION_SHORT "${ARTOOLKIT_VERSION_MAJOR}.${ARTOOLKIT_VERSION_MINOR}")
+set(ARTOOLKIT_VERSION_FULL
+	"${ARTOOLKIT_VERSION_MAJOR}.${ARTOOLKIT_VERSION_MINOR}.${ARTOOLKIT_VERSION_TINY}"
+	)
+	
+set(ARTOOLKIT_SHARE_FOLDER share/artoolkit-${ARTOOLKIT_VERSION_SHORT})
+
 #
 # Depending on what is available we work our way through
 #
@@ -55,13 +62,18 @@ if(WIN32)
 		DESTINATION bin
 		PATTERN ".svn" EXCLUDE	
 	)
+else(WIN32)
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Data
+		DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
+		PATTERN ".svn" EXCLUDE	
+	)	
 endif(WIN32)
 
 install(FILES 
 	ChangeLog.txt
 	COPYING.txt
 	README.txt
-	DESTINATION share/artoolkit_2
+	DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
 	)
 
 if   (APPLE)
@@ -88,6 +100,18 @@ add_subdirectory(lib)
 add_subdirectory(util)
 add_subdirectory(examples)
 
+#
+# Install the documentation
+#
+install(DIRECTORY doc
+	DESTINATION ${ARTOOLKIT_SHARE_FOLDER}
+	PATTERN ".svn" EXCLUDE
+	)
+
+#
+# Install the pattern files
+#	
+add_subdirectory(patterns)
 
 #
 # Optional packaging for SDK

@@ -12,6 +12,26 @@ add_subdirectory(ARMulti)
 # GL utility
 add_subdirectory(Gl)
 
+#
+# ARvideo headers - just install them 
+#
+install(FILES	
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoGStreamer.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinux1394Cam.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxDV.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxV4L.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoMacOSX.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoSGI.h
+	${CMAKE_SOURCE_DIR}/include/AR/sys/videoWin32DirectShow.h
+	DESTINATION include/AR/sys
+	)
+	
+install(FILES
+	${CMAKE_SOURCE_DIR}/include/AR/video.h
+	DESTINATION include/AR
+	)
+
+
 # Video
 if(APPLE)
 	add_subdirectory(VideoMacOSX)

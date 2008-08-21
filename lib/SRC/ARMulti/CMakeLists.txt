@@ -1,9 +1,26 @@
-SET(LIB_NAME ARMulti)
+set(lib_name ARMulti)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+set(SRCS
+	arMultiActivate.c
+	arMultiGetTransMat.c
+	arMultiReadConfigFile.c
+	)
+	
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
-SET(HDRS ${CMAKE_SOURCE_DIR}/include/AR/arMulti.h)
+set(HDRS 
+	${CMAKE_SOURCE_DIR}/include/AR/arMulti.h
+	)
 
-FILE(GLOB SRCS *.c)
+add_library(${lib_name} STATIC ${HDRS} ${SRCS})
 
-ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
+install(TARGETS ${lib_name}
+	ARCHIVE DESTINATION lib	
+	RUNTIME DESTINATION bin
+	PUBLIC_HEADER DESTINATION include/AR
+	)
+	
+		
+install(FILES ${HDRS}
+	DESTINATION include/AR
+	)

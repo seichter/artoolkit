@@ -13,9 +13,16 @@ set(SRCS
 	tinystr.h
 	tinyxml.h
 	)
-
+	
 add_definitions(-DTIXML_USE_STL)
 	
 add_library(${lib_name} STATIC
 	${SRCS}
 	)
+	
+if(NOT CMAKE_PROJECT_NAME MATCHES "tinyxml")
+	set_target_properties(${lib_name}
+		PROPERTIES
+		PROJECT_LABEL "Dependency ${lib_name}"
+	)
+endif(NOT CMAKE_PROJECT_NAME MATCHES "tinyxml")

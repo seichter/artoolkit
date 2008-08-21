@@ -18,23 +18,21 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${ARTOOLKIT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${ARTOOLKIT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${ARTOOLKIT_VERSION_TINY})
 
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "ARToolKit2SDK")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "ARToolKit-${ARTOOLKIT_VERSION_FULL}-SDK")
 
-set(CPACK_PACKAGE_EXECUTABLES "mk_patt;Make Pattern;simpleLite;Simple Example")
+set(CPACK_PACKAGE_EXECUTABLES "videoTest;Test Video Capture;graphicsTest;Test Graphics Hardware")
 
 if(WIN32)
 
-	#
-	# For MSVC compilers (and probably others) we need to copy the runtime
-	# to the plugins folder as well
-	# 
-		
 	set(CPACK_NSIS_MENU_LINKS
-		"bin" "ARToolKit application folder"	
-		"share/osgART/ChangeLog.txt" "ARToolKit 2.0 ChangeLog"
-		"share/artoolkit2/README.txt" "ARToolKit ReadMe"
-		"share/artoolkit2/COPYING.txt" "ARToolKit GPL2 License"
-		"share/osgART/doc/html/index.html" "osgART 2.0 API Documentation"
+		"bin" "ARToolKit application folder"
+		"${ARTOOLKIT_SHARE_FOLDER}/ChangeLog.txt" "ARToolKit ${ARTOOLKIT_VERSION_FULL} ChangeLog"
+		"${ARTOOLKIT_SHARE_FOLDER}/README.txt" "ARToolKit ReadMe"
+		"${ARTOOLKIT_SHARE_FOLDER}/COPYING.txt" "ARToolKit GPL2 License"
+		"${ARTOOLKIT_SHARE_FOLDER}/doc/index.html" "ARToolKit API Documentation"
+		"${ARTOOLKIT_SHARE_FOLDER}/doc/video/index.html" "ARToolKit Video API Documentation"
+		"${ARTOOLKIT_SHARE_FOLDER}/doc/gsub_lite/index.html" "ARToolKit GL Subroutine API Documentation"
+		"${ARTOOLKIT_SHARE_FOLDER}/patterns" "ARToolKit Patterns"		
 		"http://artoolkit.sourceforge.net" "ARToolKit website"
 		"http://www.hitlabnz.org" "HIT Lab NZ website"
 		"http://www.artoolworks.com" "ARToolworks website"
