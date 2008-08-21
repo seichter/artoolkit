@@ -1,9 +1,30 @@
 # some simple macros to inject files into bundles
 
 macro(artoolkit_executable EXE_NAME SRCS)
-	file(GLOB _datafiles "${CMAKE_SOURCE_DIR}/bin/Data/*.dat")
-	file(GLOB _datafiles ${_datafiles} "${CMAKE_SOURCE_DIR}/bin/Data/*.xml")
-	file(GLOB _datafiles ${_datafiles} "${CMAKE_SOURCE_DIR}/bin/Data/patt.*")
+	set(_datafiles 
+		${CMAKE_SOURCE_DIR}/bin/Data/camera_para.dat
+		${CMAKE_SOURCE_DIR}/bin/Data/object_data
+		${CMAKE_SOURCE_DIR}/bin/Data/object_data2
+		${CMAKE_SOURCE_DIR}/bin/Data/paddle_data
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.hiro
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.kanji
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.sample1
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.sample2
+		${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
+		${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera_flipV.xml
+		${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera.xml
+	)
+
+	set(_datafiles_multi 
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/marker.dat
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.a
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.b
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.c
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.d
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.f
+		${CMAKE_SOURCE_DIR}/bin/Data/multi/patt.g
+	)
 		
 	if(APPLE)
 		set_source_files_properties(
@@ -11,10 +32,16 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			PROPERTIES
 			MACOSX_PACKAGE_LOCATION "Resources/Data"
 			)
+		set_source_files_properties(
+			${_datafiles_multi}
+			PROPERTIES
+			HEADER_FILE_ONLY TRUE
+			MACOSX_PACKAGE_LOCATION "Resources/Data/multi"
+			)
 			
-		add_executable(${EXE_NAME} MACOSX_BUNDLE ${${SRCS}} ${_datafiles})
+		add_executable(${EXE_NAME} MACOSX_BUNDLE ${${SRCS}} ${_datafiles} ${_datafiles_multi})
 	else(APPLE)
-		add_executable(${EXE_NAME} ${${SRCS}} ${_datafiles})
+		add_executable(${EXE_NAME} ${${SRCS}} ${_datafiles} ${_datafiles_multi})
 	endif(APPLE)
 endmacro(artoolkit_executable)
 
@@ -50,6 +77,7 @@ macro(artoolkit_exe_install target)
 		LIBRARY DESTINATION ${lib_dest}	
 		RUNTIME DESTINATION bin
 		PUBLIC_HEADER DESTINATION include/AR
+		BUNDLE DESTINATION /Applications/ARToolKit-${ARTOOLKIT_VERSION_FULL}
 		)
 		
 endmacro(artoolkit_exe_install target)
