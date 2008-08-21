@@ -27,9 +27,23 @@ macro(artoolkit_executable EXE_NAME SRCS)
 	)
 		
 	if(APPLE)
+	
+		set(MACOSX_BUNDLE_BUNDLE_NAME           ${EXE_NAME})
+		set(MACOSX_BUNDLE_BUNDLE_VERSION        ${ARTOOLKIT_VERSION_SHORT})
+		set(MACOSX_BUNDLE_SHORT_VERSION_STRING  ${ARTOOLKIT_VERSION_FULL})
+		set(MACOSX_BUNDLE_LONG_VERSION_STRING   "ARToolKit ${EXE_NAME} Version ${ARTOOLKIT_VERSION_FULL}")
+		set(MACOSX_BUNDLE_ICON_FILE             ARToolKit.icns)	
+		set(MACOSX_BUNDLE_COPYRIGHT             "(c) 2008 Human Interface Technology Laboratory New Zealand")
+		
+		set_source_files_properties(
+			${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
+			PROPERTIES
+			MACOSX_PACKAGE_LOCATION "Resources"
+			)
 		set_source_files_properties(
 			${_datafiles}
 			PROPERTIES
+			HEADER_FILE_ONLY TRUE
 			MACOSX_PACKAGE_LOCATION "Resources/Data"
 			)
 		set_source_files_properties(
@@ -39,7 +53,11 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			MACOSX_PACKAGE_LOCATION "Resources/Data/multi"
 			)
 			
-		add_executable(${EXE_NAME} MACOSX_BUNDLE ${${SRCS}} ${_datafiles} ${_datafiles_multi})
+		add_executable(${EXE_NAME} MACOSX_BUNDLE 
+			${${SRCS}} ${_datafiles} ${_datafiles_multi}
+			${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
+			)
+			
 	else(APPLE)
 		add_executable(${EXE_NAME} ${${SRCS}} ${_datafiles} ${_datafiles_multi})
 	endif(APPLE)
@@ -70,7 +88,6 @@ macro(artoolkit_exe_install target)
 	else (WIN32)
 		set(lib_dest lib)
 	endif(WIN32)
-		
 
 	install(TARGETS ${target}
 		ARCHIVE DESTINATION lib
