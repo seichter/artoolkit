@@ -46,3 +46,13 @@ if(UNIX)
 		add_subdirectory(VideoGStreamer)
 	endif(USE_GSTREAMER)
 endif(UNIX)
+
+find_package(OpenVRML)
+if(OPENVRML_FOUND)
+	option(ARTOOLKIT_USE_OPENVRML "Create VRML based libraries and examples" ON)
+	if(ARTOOLKIT_USE_OPENVRML)
+		add_subdirectory(ARvrml)
+	endif(ARTOOLKIT_USE_OPENVRML)
+endif(OPENVRML_FOUND)
+
+

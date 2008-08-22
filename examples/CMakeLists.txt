@@ -13,3 +13,9 @@ add_subdirectory(simple)
 add_subdirectory(simple2)
 add_subdirectory(simpleLite)
 add_subdirectory(twoView)
+
+
+if(OPENVRML_FOUND)
+	add_subdirectory(simpleVRML)
+endif(OPENVRML_FOUND)
+

@@ -32,6 +32,8 @@ set(ARTOOLKIT_SHARE_FOLDER share/artoolkit-${ARTOOLKIT_VERSION_SHORT})
 find_package(OpenGL)
 find_package(GLUT)
 find_package(GStreamer)
+find_package(OpenVRML)
+find_package(PkgConfig)
 
 #
 # Preset some of the output directories
