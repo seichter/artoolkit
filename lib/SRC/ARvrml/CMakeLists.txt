@@ -52,7 +52,12 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR} ${OPENVRML_I
 
 add_library(${lib_name} ${hdrs_public} ${srcs_openvrml})
 
-target_link_libraries(${lib_name} AR ${OPENGL_LIBRARY} ${GLUT_LIBRARIES})
+target_link_libraries(${lib_name} 
+	AR 
+	${OPENVRML_LIBRARIES} 
+	${OPENGL_LIBRARY} 
+	${GLUT_LIBRARIES}
+	)
 	
 artoolkit_install(${lib_name})
 

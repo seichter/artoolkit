@@ -49,7 +49,7 @@ else(WIN32)
 	if   (APPLE)
 		# only use the PackageMaker version on Mac
 		set(CPACK_GENERATOR "PackageMaker")
-	elif(APPLE)
+	else(APPLE)
 		# use the source and deb package generators if possible
 		set(CPACK_GENERATOR "STGZ;TGZ;DEB")
 

@@ -3,6 +3,7 @@
 set(ARTOOLKIT_FILES_DATA
 	${CMAKE_SOURCE_DIR}/bin/Data/camera_para.dat
 	${CMAKE_SOURCE_DIR}/bin/Data/object_data
+	${CMAKE_SOURCE_DIR}/bin/Data/object_data_vrml
 	${CMAKE_SOURCE_DIR}/bin/Data/object_data2
 	${CMAKE_SOURCE_DIR}/bin/Data/paddle_data
 	${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
@@ -13,6 +14,21 @@ set(ARTOOLKIT_FILES_DATA
 	${CMAKE_SOURCE_DIR}/bin/Data/patt.calib
 	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera_flipV.xml
 	${CMAKE_SOURCE_DIR}/bin/Data/WDM_camera.xml
+)
+
+set(ARTOOLKIT_FILES_VRML
+	${CMAKE_SOURCE_DIR}/bin/Wrl/bud_B.dat
+	${CMAKE_SOURCE_DIR}/bin/Wrl/snoman.dat
+	${CMAKE_SOURCE_DIR}/bin/Wrl/bud_B.wrl
+	${CMAKE_SOURCE_DIR}/bin/Wrl/snoman.wrl
+)
+
+set(ARTOOLKIT_FILES_VRML_TEXTURES
+	${CMAKE_SOURCE_DIR}/bin/Wrl/textures/bud_B_Fractal_2.gif
+	${CMAKE_SOURCE_DIR}/bin/Wrl/textures/bud_B_Ramp_6.gif
+	${CMAKE_SOURCE_DIR}/bin/Wrl/textures/bud_B_Ramp_2.gif
+	${CMAKE_SOURCE_DIR}/bin/Wrl/textures/bud_B_Ramp_4.gif
+	${CMAKE_SOURCE_DIR}/bin/Wrl/textures/bud_B_Ramp_5.gif
 )
 
 set(ARTOOLKIT_FILES_DATA_WIN32

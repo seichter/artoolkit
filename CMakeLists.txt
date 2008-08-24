@@ -31,9 +31,19 @@ set(ARTOOLKIT_SHARE_FOLDER share/artoolkit-${ARTOOLKIT_VERSION_SHORT})
 #
 find_package(OpenGL)
 find_package(GLUT)
-find_package(GStreamer)
-find_package(OpenVRML)
 find_package(PkgConfig)
+
+
+find_package(GStreamer)
+
+
+#
+# Optional build with OpenVRML
+#
+option(ARTOOLKIT_USE_OPENVRML "Create VRML based libraries and examples" OFF)
+if (ARTOOLKIT_USE_OPENVRML)
+	find_package(OpenVRML)
+endif(ARTOOLKIT_USE_OPENVRML)
 
 #
 # Preset some of the output directories

@@ -47,9 +47,9 @@ if(UNIX)
 	endif(USE_GSTREAMER)
 endif(UNIX)
 
-find_package(OpenVRML)
+
 if(OPENVRML_FOUND)
-	option(ARTOOLKIT_USE_OPENVRML "Create VRML based libraries and examples" ON)
+	find_package(OpenVRML)	
 	if(ARTOOLKIT_USE_OPENVRML)
 		add_subdirectory(ARvrml)
 	endif(ARTOOLKIT_USE_OPENVRML)

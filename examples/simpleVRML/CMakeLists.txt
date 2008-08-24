@@ -7,8 +7,6 @@ set(SRCS
 	simpleVRML.c
 	)
 
-
-
 if(APPLE)
 
 	set(MACOSX_BUNDLE_BUNDLE_NAME           ${EXE_NAME})
@@ -36,8 +34,33 @@ if(APPLE)
 		MACOSX_PACKAGE_LOCATION "Resources/Data/multi"
 		)
 		
+	set_source_files_properties(
+		${ARTOOLKIT_FILES_VRML}
+		PROPERTIES
+		HEADER_FILE_ONLY TRUE
+		MACOSX_PACKAGE_LOCATION "Resources/Wrl"
+		)
+		
+	set_source_files_properties(
+		${ARTOOLKIT_FILES_VRML_TEXTURES}
+		PROPERTIES
+		HEADER_FILE_ONLY TRUE
+		MACOSX_PACKAGE_LOCATION "Resources/Wrl/textures"
+		)
+	
+		
+	set_source_files_properties(
+		${OPENVRML_LIBRARIES}
+		PROPERTIES
+		HEADER_FILE_ONLY TRUE
+		MACOSX_PACKAGE_LOCATION "MacOS"
+		)
+		
 	add_executable(${EXE_NAME} MACOSX_BUNDLE 
 		${SRCS} ${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
+		${ARTOOLKIT_FILES_VRML_TEXTURES}
+		${ARTOOLKIT_FILES_VRML}
+		${ARTOOLKIT_FILES_DATA}
 		)
 		
 else(APPLE)
@@ -46,8 +69,9 @@ endif(APPLE)
 
 
 target_link_libraries(${EXE_NAME} 
+	${GLUT_LIBRARIES} ${OPENGL_LIBRARIES} ${OPENVRML_LIBRARIES}
 	AR ARgsub ARgsub_lite ARgsubUtil ARvrml ARvideo
-	${GLUT_LIBRARIES} ${OPENGL_LIBRARIES}
-	${OPENVRML_LIBRARIES})
+	stdc++
+	)
 
 
