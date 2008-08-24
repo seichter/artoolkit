@@ -93,22 +93,20 @@ macro(artoolkit_install target)
 	else (WIN32)
 		set(lib_dest lib)
 	endif(WIN32)
-		
 
 	if (CMAKE_VERSION MATCHES 2.6)
-	install(TARGETS ${target}
-		ARCHIVE DESTINATION lib
-		LIBRARY DESTINATION ${lib_dest}	
-		RUNTIME DESTINATION bin
-		PUBLIC_HEADER DESTINATION include/AR
-		)
-	elseif(CMAKE_VERSION MATCHES 2.6)
-	install(TARGETS ${target}
-		ARCHIVE DESTINATION lib
-		LIBRARY DESTINATION ${lib_dest}	
-		RUNTIME DESTINATION bin
-		PUBLIC_HEADER DESTINATION include/AR
-		)
+		install(TARGETS ${target}
+			RUNTIME DESTINATION bin
+			LIBRARY DESTINATION ${lib_dest}	
+			ARCHIVE DESTINATION lib
+			PUBLIC_HEADER DESTINATION include/AR
+			)
+	else(CMAKE_VERSION MATCHES 2.6)
+		install(TARGETS ${target}
+			RUNTIME DESTINATION bin
+			LIBRARY DESTINATION ${lib_dest}	
+			ARCHIVE DESTINATION lib
+			)
 	endif(CMAKE_VERSION MATCHES 2.6)
 		
 endmacro(artoolkit_install target)
