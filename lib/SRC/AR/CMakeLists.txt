@@ -52,14 +52,22 @@ set(HDRS ${HDRS}
 	${CMAKE_BINARY_DIR}/include/AR/config.h
 	)
 	
-set(HDRS ${HDRS} ${CMAKE_SOURCE_DIR}/include/AR/ar.h)
+list(APPEND HDRS
+	${CMAKE_SOURCE_DIR}/include/AR/ar.h
+	${CMAKE_SOURCE_DIR}/include/AR/param.h
+	${CMAKE_SOURCE_DIR}/include/AR/matrix.h
+	)
+
+if(NOT WIN32)
+	add_definitions(-fPIC)
+endif(NOT WIN32)
 
 add_library(${LIB_NAME} ${SRCS} ${HDRS})
 
 artoolkit_install(${LIB_NAME})	
 	
 install(FILES ${HDRS}
-	DESTINATION include/AR
+	DESTINATION include/AR	
 	)
 
 	

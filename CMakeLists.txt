@@ -26,6 +26,15 @@ set(ARTOOLKIT_VERSION_FULL
 	
 set(ARTOOLKIT_SHARE_FOLDER share/artoolkit-${ARTOOLKIT_VERSION_SHORT})
 
+
+#
+# apply the RPATH to be used when installing, necessary to help the
+# dynamic library finding libs on ia64 systems
+#
+if(UNIX AND NOT APPLE)
+	set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+endif(UNIX AND NOT APPLE)
+
 #
 # Depending on what is available we work our way through
 #

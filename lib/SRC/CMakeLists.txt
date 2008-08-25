@@ -5,6 +5,15 @@
 ##############################################################################
 
 
+#
+# On gcc we need position independent code for the libraries
+# this is required for x86_64 and recommended for x86 
+#
+if(UNIX AND NOT APPLE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC"  )
+endif(UNIX AND NOT APPLE)
+
+
 # Core library
 add_subdirectory(AR)
 add_subdirectory(ARMulti)
