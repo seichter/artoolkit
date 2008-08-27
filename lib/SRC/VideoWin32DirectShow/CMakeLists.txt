@@ -25,4 +25,4 @@ target_link_libraries(${LIB_NAME}
 	DSVL
 	)
 	
-artoolkit_lib_install(${LIB_NAME})
+artoolkit_install(${LIB_NAME})

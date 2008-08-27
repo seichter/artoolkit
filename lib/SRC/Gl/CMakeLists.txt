@@ -1,7 +1,4 @@
 
-find_package(OpenGL)
-find_package(GLUT)
-
 
 if(GLUT_FOUND)
 

@@ -83,6 +83,7 @@ if(MSVC)
 	#
 	set(GLUT_ROOT_PATH "${CMAKE_SOURCE_DIR}/${FREEGLUT_ROOT_DIR}" CACHE PATH "GLUT root folder")
 	set(GLUT_LIBRARIES glut)
+	set(GLUT_FOUND TRUE)
 	
 endif(MSVC)
 
