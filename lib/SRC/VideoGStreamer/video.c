@@ -39,6 +39,10 @@ struct _AR2VideoParamT {
 	/* GStreamer identity needed for probing */
 	GstElement *probe;
 
+	/* give external APIs a hint of progress */
+	unsigned int frame;
+	unsigned int frame_req;
+
 };
 
 
@@ -69,6 +73,7 @@ cb_have_data (GstPad    *pad,
 
 	if (vid->videoBuffer)
 	{
+		vid->frame++;
 		memcpy(vid->videoBuffer, buffer->data, buffer->size);		
 	}
 	
@@ -107,8 +112,6 @@ void video_caps_notify(GObject* obj, GParamSpec* pspec, gpointer data) {
 
 		/* allocate the buffer */	
 		arMalloc(vid->videoBuffer, ARUint8, (vid->width * vid->height * AR_PIX_SIZE_DEFAULT) );
-
-
 
 	}
 }
@@ -327,8 +330,16 @@ ar2VideoOpen(char *config_in ) {
 int 
 ar2VideoClose(AR2VideoParamT *vid) {
 
+
 	/* stop the pipeline */
 	gst_element_set_state (vid->pipeline, GST_STATE_NULL);
+
+	/* wait until it'stops or failed */
+	if (gst_element_get_state (vid->pipeline, NULL, NULL, -1) == GST_STATE_CHANGE_FAILURE) {
+		g_error ("libARvideo: failed to put GStreamer into STOPPED state!\n");
+	} else {
+		g_print ("libARvideo: GStreamer pipeline is STOPPED!\n");
+	}
 	
 	/* free the pipeline handle */
 	gst_object_unref (GST_OBJECT (vid->pipeline));
@@ -377,15 +388,21 @@ ar2VideoCapStop(AR2VideoParamT *vid) {
 int 
 ar2VideoCapNext(AR2VideoParamT *vid)
 {
+	if (vid && vid->frame != vid->frame_req) {
+		vid->frame_req = vid->frame;		
+	}
 	return 0;
 }
 
 int
 ar2VideoInqSize(AR2VideoParamT *vid, int *x, int *y ) 
 {
+   if(vid && x && y) {
 
-   *x = vid->width; // width of your static image
-   *y = vid->height; // height of your static image
+      *x = vid->width; // width of your static image
+      *y = vid->height; // height of your static image
+      g_print ("libARvideo: reported size: %dx%d\n", *x, *y);
 
+   }
 }
 
