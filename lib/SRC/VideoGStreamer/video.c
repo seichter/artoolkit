@@ -389,9 +389,10 @@ int
 ar2VideoCapNext(AR2VideoParamT *vid)
 {
 	if (vid && vid->frame != vid->frame_req) {
-		vid->frame_req = vid->frame;		
+		vid->frame_req = vid->frame;
+		return 0;
 	}
-	return 0;
+	return -1;
 }
 
 int
