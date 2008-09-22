@@ -69,6 +69,7 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			HEADER_FILE_ONLY TRUE
 			MACOSX_PACKAGE_LOCATION "Resources/Data"
 			)
+			
 		set_source_files_properties(
 			${ARTOOLKIT_FILES_DATA_MULTI}
 			PROPERTIES
@@ -78,6 +79,8 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			
 		add_executable(${EXE_NAME} MACOSX_BUNDLE 
 			${${SRCS}} ${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
+			${ARTOOLKIT_FILES_DATA}
+			${ARTOOLKIT_FILES_DATA_MULTI}
 			)
 			
 	else(APPLE)
@@ -93,9 +96,12 @@ macro(artoolkit_install target)
 	else (WIN32)
 		set(lib_dest lib)
 	endif(WIN32)
+	
+	set(cmake_version_short "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
 
-	if (CMAKE_VERSION MATCHES 2.6)
+	if (cmake_version_short GREATER "2.5")
 		install(TARGETS ${target}
+			BUNDLE DESTINATION "/Applications/ARToolKit-${ARTOOLKIT_VERSION_FULL}"
 			RUNTIME DESTINATION bin
 			LIBRARY DESTINATION ${lib_dest}	
 			ARCHIVE DESTINATION lib
@@ -105,7 +111,7 @@ macro(artoolkit_install target)
 			GROUP_EXECUTE GROUP_READ
 			WORLD_EXECUTE WORLD_READ
 			)
-	else(CMAKE_VERSION MATCHES 2.6)
+	else(cmake_version_short GREATER "2.5")
 		install(TARGETS ${target}
 			RUNTIME DESTINATION bin
 			LIBRARY DESTINATION ${lib_dest}	
@@ -115,7 +121,7 @@ macro(artoolkit_install target)
 			GROUP_EXECUTE GROUP_READ
 			WORLD_EXECUTE WORLD_READ
 			)
-	endif(CMAKE_VERSION MATCHES 2.6)
+	endif(cmake_version_short GREATER "2.5")
 		
 endmacro(artoolkit_install target)
 
