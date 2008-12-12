@@ -1,5 +1,5 @@
 #
-# CMake build system for DSVL 0.0.8c 
+# CMake build system for DSVL 0.0.8h 
 # (c) Copyrights 2007-2008 Hartmut Seichter, HIT Lab NZ
 #
 

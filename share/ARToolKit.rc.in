@@ -1,0 +1,27 @@
+#include <winver.h>
+
+
+1 VERSIONINFO
+FILEVERSION     @ARTOOLKIT_VERSION_MAJOR@,@ARTOOLKIT_VERSION_MINOR@,@ARTOOLKIT_VERSION_TINY@,0
+PRODUCTVERSION  @ARTOOLKIT_VERSION_MAJOR@,@ARTOOLKIT_VERSION_MINOR@,@ARTOOLKIT_VERSION_TINY@,0
+FILEFLAGSMASK   0
+FILEOS          VOS__WINDOWS32
+FILETYPE        VFT_APP
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904E4"
+        {
+            VALUE "FileVersion",      "@ARTOOLKIT_VERSION_MAJOR@,@ARTOOLKIT_VERSION_MINOR@,@ARTOOLKIT_VERSION_TINY@"
+            VALUE "ProductVersion",   "@ARTOOLKIT_VERSION_MAJOR@,@ARTOOLKIT_VERSION_MINOR@,@ARTOOLKIT_VERSION_TINY@"
+            VALUE "FileDescription",  "@EXE_NAME@"
+            VALUE "InternalName",     "@EXE_NAME@"
+            VALUE "ProductName",      "@EXE_NAME@"
+            VALUE "OriginalFilename", "@EXE_NAME@.exe"
+            VALUE "CompanyName",      "HITLabNZ"
+            VALUE "LegalCopyright",   "Copyright (C) 2007-2008 HIT Lab NZ, ARToolworks" 
+        }
+    }
+}
+
+IDI_APPICON	ICON "@CMAKE_SOURCE_DIR@/share/ARToolKit.ico"

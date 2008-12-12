@@ -50,6 +50,11 @@ set(hdrs_public
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${GLUT_INCLUDE_DIR} ${OPENVRML_INCLUDE_DIR})
 
+if(WIN32)
+	add_definitions(-DOPENVRML_USE_DLL -DOPENVRML_GL_USE_DLL)
+endif(WIN32)
+
+
 add_library(${lib_name} ${hdrs_public} ${srcs_openvrml})
 
 target_link_libraries(${lib_name} 
@@ -60,6 +65,7 @@ target_link_libraries(${lib_name}
 	)
 	
 artoolkit_install(${lib_name})
+
 
 install(FILES ${hdrs_public}
 	DESTINATION include/AR

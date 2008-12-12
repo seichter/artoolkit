@@ -84,7 +84,15 @@ macro(artoolkit_executable EXE_NAME SRCS)
 			)
 			
 	else(APPLE)
-		add_executable(${EXE_NAME} ${${SRCS}})
+		set(TEMP_RC_NAME ${CMAKE_BINARY_DIR}/.rc/${EXE_NAME}_temp.rc)
+		
+		configure_file(
+			${CMAKE_SOURCE_DIR}/share/ARToolKit.rc.in
+			${TEMP_RC_NAME}
+			IMMEDIATE @ONLY
+		)
+	
+		add_executable(${EXE_NAME} ${${SRCS}} ${TEMP_RC_NAME})
 	endif(APPLE)
 endmacro(artoolkit_executable)
 
