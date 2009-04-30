@@ -99,12 +99,22 @@ HRESULT MatchMediaTypes(IPin *pin, DS_MEDIA_FORMAT *mf, AM_MEDIA_TYPE *req_mt)
 		VIDEOINFOHEADER *pvi = (VIDEOINFOHEADER *) p_mt->pbFormat;
 		if( ((p_mt->subtype == mf->subtype) || (mf->subtype == GUID_NULL)) &&
 			((pvi->bmiHeader.biHeight == mf->biHeight) || (mf->biHeight == 0)) &&
-			((pvi->bmiHeader.biWidth  == mf->biWidth)  || (mf->biWidth == 0)) &&
-			((avg2fps(pvi->AvgTimePerFrame,3) == RoundDouble(mf->frameRate,3)) || (mf->frameRate == 0.0))
+			((pvi->bmiHeader.biWidth  == mf->biWidth)  || (mf->biWidth == 0)) /*&&
+			// jcl64: Don't try to match frame rate. Set it explicitly (see below)
+			((avg2fps(pvi->AvgTimePerFrame,3) == RoundDouble(mf->frameRate,3)) || (mf->frameRate == 0.0))*/
 			)
 		{
 			// found a match!
 			CopyMediaType(req_mt,p_mt);
+
+			// ------------------
+			// jcl64: Set the frame rate we want
+			if (VIDEOINFOHEADER *pvi_req = (VIDEOINFOHEADER *) req_mt->pbFormat) {
+				pvi_req->AvgTimePerFrame = fps2avg(RoundDouble(mf->frameRate,3));
+			}
+			// jcl64
+			// ------------------
+
 			DeleteMediaType(p_mt);
 			return(S_OK);
 		}
