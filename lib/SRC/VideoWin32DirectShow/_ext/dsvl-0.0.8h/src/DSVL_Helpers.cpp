@@ -405,66 +405,69 @@ HRESULT FindCaptureDevice(IBaseFilter ** ppSrcFilter,
 		{
 			// Bind Moniker to a filter object
 			hr = pMoniker->BindToObject(0,0,IID_IBaseFilter, (void**)&pSrc);
+            
+            if (SUCCEEDED(hr))
+            {
+			    if(matchDeviceName)
+			    {
+				    LPOLESTR strName = NULL;
+				    hr = pMoniker->GetDisplayName(NULL, NULL, &strName);
+				    if(wcsstr(strName, filterNameSubstring) != NULL)
+				    {
+					    *ppSrcFilter = pSrc;
+					    return(S_OK);
+				    }
+			    }
+			    else // matchFriendlyName
+			    {
+				    if(SUCCEEDED(name_hr) && wcsstr(varName.bstrVal, filterNameSubstring) != NULL)
+				    {
+					    // check for matching IEEE-1394 identifier
+					    if(ieee1394id_str != NULL)
+					    {
+						    IAMExtDevice *pExtDev = NULL;
+						    hr = pSrc->QueryInterface(IID_IAMExtDevice, (void**)&pExtDev);
+						    if(SUCCEEDED(hr))
+						    {
+							    LPOLESTR ole_str = NULL;
+							    bool matching_id = false;
+							    hr = pExtDev->get_ExternalDeviceID(&ole_str);
 
-			if(matchDeviceName)
-			{
-				LPOLESTR strName = NULL;
-				hr = pMoniker->GetDisplayName(NULL, NULL, &strName);
-				if(wcsstr(strName, filterNameSubstring) != NULL)
-				{
-					*ppSrcFilter = pSrc;
-					return(S_OK);
-				}
-			}
-			else // matchFriendlyName
-			{
-				if(SUCCEEDED(name_hr) && wcsstr(varName.bstrVal, filterNameSubstring) != NULL)
-				{
-					// check for matching IEEE-1394 identifier
-					if(ieee1394id_str != NULL)
-					{
-						IAMExtDevice *pExtDev = NULL;
-						hr = pSrc->QueryInterface(IID_IAMExtDevice, (void**)&pExtDev);
-						if(SUCCEEDED(hr))
-						{
-							LPOLESTR ole_str = NULL;
-							bool matching_id = false;
-							hr = pExtDev->get_ExternalDeviceID(&ole_str);
+							    unsigned __int64 msdv_id = *((unsigned __int64*) ole_str);
+							    if(ole_str != NULL) CoTaskMemFree(ole_str);
 
-							unsigned __int64 msdv_id = *((unsigned __int64*) ole_str);
-							if(ole_str != NULL) CoTaskMemFree(ole_str);
+							    char* temp_str = (char*) CoTaskMemAlloc(sizeof(char) * MAX_PATH);
+							    _ui64toa(msdv_id,temp_str,16);
+							    if(strcmp(ieee1394id_str,temp_str) == 0) matching_id = true;
+							    CoTaskMemFree(temp_str);
 
-							char* temp_str = (char*) CoTaskMemAlloc(sizeof(char) * MAX_PATH);
-							_ui64toa(msdv_id,temp_str,16);
-							if(strcmp(ieee1394id_str,temp_str) == 0) matching_id = true;
-							CoTaskMemFree(temp_str);
-
-							if(SUCCEEDED(hr) && matching_id)
-							{
-								*ppSrcFilter = pSrc;
-								return(S_OK);
-							}
-							else // pExtDev->get_ExternalDeviceID() failed || identifier mismatch
-							{
-								pSrc->Release();
-							}
-						}
-						else
-						{
-							pSrc->Release();
-						}
-					}
-					else // (ieee1394id == 0)
-					{
-						*ppSrcFilter = pSrc;
-						return(S_OK);
-					}
-				}
-				else // friendlyName substrings don't match
-				{
-					pSrc->Release();
-				}
-			}
+							    if(SUCCEEDED(hr) && matching_id)
+							    {
+								    *ppSrcFilter = pSrc;
+								    return(S_OK);
+							    }
+							    else // pExtDev->get_ExternalDeviceID() failed || identifier mismatch
+							    {
+								    pSrc->Release();
+							    }
+						    }
+						    else
+						    {
+							    pSrc->Release();
+						    }
+					    }
+					    else // (ieee1394id == 0)
+					    {
+						    *ppSrcFilter = pSrc;
+						    return(S_OK);
+					    }
+				    }
+				    else // friendlyName substrings don't match
+				    {
+					    pSrc->Release();
+				    }
+			    }
+            }
 		}
 		VariantClear(&varName);
 		pMoniker = NULL; // Release for the next loop.
