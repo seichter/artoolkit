@@ -196,7 +196,7 @@ ar2VideoOpen(char *config_in ) {
 		} else {
 			config = NULL;
 
-			g_printf ("Warning: no video config string supplied, using default!.\n");
+			g_printf ("Warning: no video config string supplied and ARTOOLKIT_CONFIG not set. Using default!.\n");
 
 			/* setting up defaults - we fall back to the TV test signal simulator */
 			config = GSTREAMER_TEST_LAUNCH_CFG;					
