@@ -11,7 +11,7 @@
 #include <AR/config.h>
 #include <AR/ar.h>
 #include <AR/video.h>
-
+	 
 /* include GLib for GStreamer */
 #include <glib.h>
 

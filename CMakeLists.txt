@@ -4,12 +4,7 @@
 # (c) Copyright 2007-2008, HITLabNZ, Hartmut Seichter                        #
 ##############################################################################
 
-cmake_minimum_required(VERSION 2.4)
-
-if(COMMAND cmake_policy)
-	cmake_policy(SET CMP0003 NEW)
-	cmake_policy(SET CMP0006 OLD)
-endif(COMMAND cmake_policy)
+cmake_minimum_required(VERSION 2.8)
 
 project(ARToolKit)
 
@@ -65,8 +60,8 @@ set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib CACHE PATH "Library output fo
 # Apple presets
 #
 if   (APPLE)
-	set(CMAKE_OSX_ARCHITECTURES ppc;i386)
-	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk CACHE PATH "SDK to link against")
+#	set(CMAKE_OSX_ARCHITECTURES i386)
+#	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk CACHE PATH "SDK to link against")
 endif(APPLE)
 
 #
