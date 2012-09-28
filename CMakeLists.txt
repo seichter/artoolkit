@@ -115,8 +115,20 @@ include_directories(${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR}/include)
 include(ARToolKitHelper)
 
 add_subdirectory(lib)
-add_subdirectory(util)
-add_subdirectory(examples)
+
+
+option(BUILD_EXAMPLES "Build examples" FALSE)
+if(BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
+
+option(BUILD_UTILS "Build utilities" FALSE)
+if(BUILD_UTILS)
+	add_subdirectory(util)
+endif()
+
+
+
 
 #
 # Install the documentation
