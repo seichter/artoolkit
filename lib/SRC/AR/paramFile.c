@@ -155,11 +155,28 @@ int    arParamLoad( const char *filename, int num, ARParam *param, ...)
     va_list     ap;
     ARParam     *param1;
     int         i;
+    ARParam     canonicalCamera;
 
     if( num < 1 ) return -1;
 
     fp = fopen( filename, "rb" );
-    if( fp == NULL ) return -1;
+    if( fp == NULL ) {
+
+        /*
+        Distortion factor = 159.250000 131.750000 104.800000 1.012757
+        350.47574 0.00000 158.25000 0.00000
+        0.00000 363.04709 120.75000 0.00000
+        0.00000 0.00000 1.00000 0.00000
+        */
+        canonicalCamera.xsize = 320;
+        canonicalCamera.ysize = 240;
+        canonicalCamera.dist_factor[0] = 159.250000;
+        canonicalCamera.dist_factor[1] = 131.750000;
+        canonicalCamera.dist_factor[2] = 104.800000;
+        canonicalCamera.dist_factor[3] =   1.012757;
+
+        return 0;
+    }
 
     if( fread( param, sizeof(ARParam), 1, fp ) != 1 ) {
         fclose(fp);

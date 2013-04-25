@@ -1,10 +1,10 @@
 ##############################################################################
 # CMake build system for ARToolKit 2.7.x                                     #
 #                                                                            #
-# (c) Copyright 2007-2008, HITLabNZ, Hartmut Seichter                        #
+# (c) Copyright 2007-2013 Hartmut Seichter                                   #
 ##############################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.8)
 
 project(ARToolKit)
 
