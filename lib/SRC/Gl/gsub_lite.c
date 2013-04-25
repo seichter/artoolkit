@@ -98,11 +98,13 @@
 #ifndef GL_EXT_abgr
 #  define GL_ABGR_EXT						0x8000
 #endif
-#if GL_NV_texture_rectangle
+
+#if !defined(GL_TEXTURE_RECTANGLE)
+#if !defined(GL_NV_texture_rectangle)
 #  define GL_TEXTURE_RECTANGLE				GL_TEXTURE_RECTANGLE_NV
 #  define GL_PROXY_TEXTURE_RECTANGLE		GL_PROXY_TEXTURE_RECTANGLE_NV
 #  define GL_MAX_RECTANGLE_TEXTURE_SIZE		GL_MAX_RECTANGLE_TEXTURE_SIZE_NV
-#elif GL_EXT_texture_rectangle
+#elif !defined(GL_EXT_texture_rectangle)
 #  define GL_TEXTURE_RECTANGLE				GL_TEXTURE_RECTANGLE_EXT
 #  define GL_PROXY_TEXTURE_RECTANGLE		GL_PROXY_TEXTURE_RECTANGLE_EXT
 #  define GL_MAX_RECTANGLE_TEXTURE_SIZE		GL_MAX_RECTANGLE_TEXTURE_SIZE_EXT
@@ -111,6 +113,8 @@
 #  define GL_PROXY_TEXTURE_RECTANGLE		0x84F7
 #  define GL_MAX_RECTANGLE_TEXTURE_SIZE		0x84F8
 #endif
+#endif
+
 #ifndef GL_MESA_ycbcr_texture
 #  define GL_YCBCR_MESA						0x8757
 #  define GL_UNSIGNED_SHORT_8_8_MESA		0x85BA

@@ -64,6 +64,10 @@ endif(NOT WIN32)
 
 add_library(${LIB_NAME} ${SRCS} ${HDRS})
 
+if(UNIX)
+	target_link_libraries(${LIB_NAME} m)
+endif()
+
 artoolkit_install(${LIB_NAME})	
 	
 install(FILES ${HDRS}
