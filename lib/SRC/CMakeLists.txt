@@ -36,8 +36,8 @@ install(FILES
 
 
 # Video
-if(USE_GSTREAMER)
-	add_subdirectory(VideoGStreamer)
-endif(USE_GSTREAMER)
+#if(USE_GSTREAMER)
+add_subdirectory(VideoGStreamer)
+#endif(USE_GSTREAMER)
 
 

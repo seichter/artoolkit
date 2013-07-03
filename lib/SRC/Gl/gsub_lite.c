@@ -100,7 +100,7 @@
 #endif
 
 #if !defined(GL_TEXTURE_RECTANGLE)
-#if !defined(GL_NV_texture_rectangle)
+#if defined(GL_NV_texture_rectangle)
 #  define GL_TEXTURE_RECTANGLE				GL_TEXTURE_RECTANGLE_NV
 #  define GL_PROXY_TEXTURE_RECTANGLE		GL_PROXY_TEXTURE_RECTANGLE_NV
 #  define GL_MAX_RECTANGLE_TEXTURE_SIZE		GL_MAX_RECTANGLE_TEXTURE_SIZE_NV
