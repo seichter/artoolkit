@@ -26,12 +26,12 @@ add_subdirectory(Gl)
 #
 install(FILES	
 	${CMAKE_SOURCE_DIR}/include/AR/sys/videoGStreamer.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinux1394Cam.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxDV.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxV4L.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoMacOSX.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoSGI.h
-	${CMAKE_SOURCE_DIR}/include/AR/sys/videoWin32DirectShow.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinux1394Cam.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxDV.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxV4L.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoMacOSX.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoSGI.h
+#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoWin32DirectShow.h
 	DESTINATION include/AR/sys
 	)
 	
@@ -49,9 +49,9 @@ install(FILES
 #	add_subdirectory(VideoMacOSX)
 #endif(APPLE)
 
-if(WIN32)
-	add_subdirectory(VideoWin32DirectShow)
-endif(WIN32)
+#if(WIN32)
+#	add_subdirectory(VideoWin32DirectShow)
+#endif(WIN32)
 
 if(UNIX OR APPLE)
 	if(USE_GSTREAMER)
@@ -60,11 +60,11 @@ if(UNIX OR APPLE)
 endif()
 
 
-if(OPENVRML_FOUND)
-	find_package(OpenVRML)	
-	if(ARTOOLKIT_USE_OPENVRML)
-		add_subdirectory(ARvrml)
-	endif(ARTOOLKIT_USE_OPENVRML)
-endif(OPENVRML_FOUND)
+#if(OPENVRML_FOUND)
+#	find_package(OpenVRML)
+#	if(ARTOOLKIT_USE_OPENVRML)
+#		add_subdirectory(ARvrml)
+#	endif(ARTOOLKIT_USE_OPENVRML)
+#endif(OPENVRML_FOUND)
 
 

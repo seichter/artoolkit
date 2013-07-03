@@ -56,7 +56,7 @@ macro(artoolkit_executable EXE_NAME SRCS)
 		set(MACOSX_BUNDLE_SHORT_VERSION_STRING  ${ARTOOLKIT_VERSION_FULL})
 		set(MACOSX_BUNDLE_LONG_VERSION_STRING   "ARToolKit ${EXE_NAME} Version ${ARTOOLKIT_VERSION_FULL}")
 		set(MACOSX_BUNDLE_ICON_FILE             ARToolKit.icns)	
-		set(MACOSX_BUNDLE_COPYRIGHT             "(c) 2008 Human Interface Technology Laboratory New Zealand")
+		set(MACOSX_BUNDLE_COPYRIGHT             "(c) 2013 Human Interface Technology Laboratory New Zealand")
 		
 		set_source_files_properties(
 			${CMAKE_SOURCE_DIR}/share/ARToolKit.icns
