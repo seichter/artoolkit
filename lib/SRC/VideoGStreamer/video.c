@@ -14,6 +14,7 @@
 	 
 /* include GLib for GStreamer */
 #include <glib.h>
+#include <glib/gprintf.h>
 
 /* include GStreamer itself */
 #include <gst/gst.h>
@@ -22,7 +23,9 @@
 #include <string.h>
 
 
-#define GSTREAMER_TEST_LAUNCH_CFG "videotestsrc ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
+
+#define GSTREAMER_LAUNCH_CFG "%s ! queue ! colorspace ! video/x-raw-rgb,bpp=24,depth=24,width=%d,height=%d ! identity name=artoolkit ! fakesink sync=true"
+#define GSTREAMER_TEST_LAUNCH_CFG "videotestsrc"
 
 
 struct _AR2VideoParamT {
@@ -177,6 +180,10 @@ int arVideoCapNext( void )
 AR2VideoParamT* 
 ar2VideoOpen(char *config_in ) {
 
+    int width = 640;
+    int height = 480;
+
+
 	AR2VideoParamT *vid = 0;
 	GError *error = 0;
 	int i;
@@ -184,29 +191,34 @@ ar2VideoOpen(char *config_in ) {
 	GstXML *xml;
 	GstStateChangeReturn _ret;
 	int is_live;
-	char *config;
+    char *srcConfig = 0;
+    char *fullConfig = 0;
 
 	/* If no config string is supplied, we should use the environment variable, otherwise set a sane default */
 	if (!config_in || !(config_in[0])) {
 		/* None suppplied, lets see if the user supplied one from the shell */
 		char *envconf = getenv ("ARTOOLKIT_CONFIG");
 		if (envconf && envconf[0]) {
-			config = envconf;
+            srcConfig = envconf;
 			g_printf ("Using config string from environment [%s].\n", envconf);
 		} else {
-			config = NULL;
+            srcConfig = NULL;
 
 			g_printf ("Warning: no video config string supplied and ARTOOLKIT_CONFIG not set. Using default!.\n");
 
 			/* setting up defaults - we fall back to the TV test signal simulator */
-			config = GSTREAMER_TEST_LAUNCH_CFG;					
+            srcConfig = GSTREAMER_TEST_LAUNCH_CFG;
 				
 		}
 
 	} else {
-		config = config_in;
-		g_printf ("Using supplied video config string [%s].\n", config_in);
-	}
+        srcConfig = config_in;
+    }
+
+    /* build the config string for launcher */
+    fullConfig = g_strdup_printf(GSTREAMER_LAUNCH_CFG,srcConfig,width,height);
+
+    g_printf ("GStreamer launch [%s].\n", fullConfig);
 
 	/* initialise GStreamer */
 	gst_init(0,0);	
@@ -235,8 +247,9 @@ ar2VideoOpen(char *config_in ) {
 	
 #endif
 
-	vid->pipeline = gst_parse_launch (config, &error);
-	
+    vid->pipeline = gst_parse_launch (fullConfig, &error);
+
+
 	if (!vid->pipeline) {
 		g_print ("Parse error: %s\n", error->message);
 		return 0;
