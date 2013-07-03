@@ -1,7 +1,7 @@
 ##############################################################################
 # CMake build system for ARToolKit 2.7.x                                     #
 #                                                                            #
-# (c) Copyright 2007-2008, HITLabNZ, Hartmut Seichter                        #
+# (c) Copyright 2007-2013, HITLabNZ, Hartmut Seichter                        #
 ##############################################################################
 
 
@@ -26,12 +26,6 @@ add_subdirectory(Gl)
 #
 install(FILES	
 	${CMAKE_SOURCE_DIR}/include/AR/sys/videoGStreamer.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinux1394Cam.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxDV.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoLinuxV4L.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoMacOSX.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoSGI.h
-#	${CMAKE_SOURCE_DIR}/include/AR/sys/videoWin32DirectShow.h
 	DESTINATION include/AR/sys
 	)
 	
@@ -42,29 +36,8 @@ install(FILES
 
 
 # Video
-
-# the old capture code doesnt work with OSX 10.6 and upwards
-
-#if(APPLE)
-#	add_subdirectory(VideoMacOSX)
-#endif(APPLE)
-
-#if(WIN32)
-#	add_subdirectory(VideoWin32DirectShow)
-#endif(WIN32)
-
-if(UNIX OR APPLE)
-	if(USE_GSTREAMER)
-		add_subdirectory(VideoGStreamer)
-	endif(USE_GSTREAMER)
-endif()
-
-
-#if(OPENVRML_FOUND)
-#	find_package(OpenVRML)
-#	if(ARTOOLKIT_USE_OPENVRML)
-#		add_subdirectory(ARvrml)
-#	endif(ARTOOLKIT_USE_OPENVRML)
-#endif(OPENVRML_FOUND)
+if(USE_GSTREAMER)
+	add_subdirectory(VideoGStreamer)
+endif(USE_GSTREAMER)
 
 
