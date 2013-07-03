@@ -1,7 +1,7 @@
 /*
  * Video capture module utilising the GStreamer pipeline for AR Toolkit
  * 
- * (c) Copyrights 2003-2008 Hartmut Seichter <http://www.technotecture.com>
+ * (c) Copyrights 2003-2013 Hartmut Seichter <http://www.technotecture.com>
  * 
  * licensed under the terms of the LGPL v2
  *
