@@ -1,4 +1,4 @@
-Read me for ARToolKit-2.72.1.
+Read me for ARToolKit-2.8.0
 =============================
 
 
@@ -18,17 +18,11 @@ About this archive.
 -------------------
 This archive contains the ARToolKit libraries, utilities and examples, version 2.72.1.
 
-ARToolKit version 2.72.1 is released under the GNU General Public License (GPL). Please read the file COPYING.txt.
+ARToolKit version 2.8.0 is released under the GNU General Public License (GPL). Please read the file COPYING.txt.
 
-The latest version of ARToolKit is available from http://sf.net/projects/artoolkit.
+The latest version of ARToolKit is available from http://github.com/seichter/artoolkit - older versions are available at http://sf.net/projects/artoolkit.
 
-ARToolKit is designed to build on Linux, Windows, Macintosh OS X, and SGI Irix platforms.
-
-This archive was assembled by:
-    Philip Lamb
-    HIT Lab NZ
-    http://www.hitlabnz.org
-    2007-02-07
+ARToolKit is designed to build on Windows, Linux, Mac OS X, iOS and Android.
 
 
 The ARToolKit license model.
