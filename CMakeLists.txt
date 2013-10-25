@@ -117,7 +117,7 @@ include_directories(${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR}/include)
 
 include(ARToolKitHelper)
 
-add_subdirectory(lib)
+add_subdirectory(src)
 
 
 option(BUILD_EXAMPLES "Build examples" FALSE)

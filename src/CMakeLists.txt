@@ -19,7 +19,7 @@ add_subdirectory(AR)
 add_subdirectory(ARMulti)
 
 # GL utility
-add_subdirectory(Gl)
+add_subdirectory(ARGLUtils)
 
 #
 # ARvideo headers - just install them 
