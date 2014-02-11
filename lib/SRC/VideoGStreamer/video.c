@@ -22,7 +22,7 @@
 /* using memcpy */
 #include <string.h>
 
-
+#define GSTREAMER_1_0
 
 #define GSTREAMER_LAUNCH_CFG "%s ! queue ! colorspace ! video/x-raw-rgb,bpp=24,depth=24,width=%d,height=%d ! identity name=artoolkit ! fakesink sync=true"
 #define GSTREAMER_TEST_LAUNCH_CFG "videotestsrc"
@@ -51,24 +51,29 @@ struct _AR2VideoParamT {
 
 static AR2VideoParamT *gVid = NULL;
 
-static gboolean
-cb_have_data (GstPad    *pad,
-	      GstBuffer *buffer,
-	      gpointer   u_data)
+
+GstPadProbeReturn 
+	_artoolkit_data_callback(
+GstPad    *pad,
+GstPadProbeInfo *padInfo,
+gpointer   u_data)
 {
 
  	const GstCaps *caps;
 	GstStructure *str;
+	GstMapInfo mapInfo;
 	
 	gint width,height;
 	gdouble rate;
 	
+	GstBuffer* buffer = gst_pad_probe_info_get_buffer(padInfo);
+
 	AR2VideoParamT *vid = (AR2VideoParamT*)u_data;
 
-	if (vid == NULL) return FALSE;
+	if (vid == NULL) return GST_PAD_PROBE_DROP;
 	
 
-	/* only do initialy for the buffer */
+	/* only do initially for the buffer */
 	if (vid->videoBuffer == NULL && buffer) 
 	{
 		g_print("libARvideo error! Buffer not allocated\n");		
@@ -77,10 +82,19 @@ cb_have_data (GstPad    *pad,
 	if (vid->videoBuffer)
 	{
 		vid->frame++;
+
+#if defined(GSTREAMER_1_0)
+
+		if (gst_buffer_map(buffer,&mapInfo,GST_MAP_READ)) {
+			memcpy(vid->videoBuffer,mapInfo.data,mapInfo.size);
+		}
+
+#else
 		memcpy(vid->videoBuffer, buffer->data, buffer->size);		
+#endif
 	}
 	
-	return TRUE;
+	return GST_PAD_PROBE_OK;
 }
 
 
@@ -95,7 +109,7 @@ void video_caps_notify(GObject* obj, GParamSpec* pspec, gpointer data) {
 	
 	AR2VideoParamT *vid = (AR2VideoParamT*)data;
 
-	caps = gst_pad_get_negotiated_caps((GstPad*)obj);
+	caps = gst_pad_get_current_caps((GstPad*)obj);
 
 	if (caps) {
 
@@ -188,7 +202,7 @@ ar2VideoOpen(char *config_in ) {
 	GError *error = 0;
 	int i;
 	GstPad *pad, *peerpad;
-	GstXML *xml;
+	//GstXML *xml;
 	GstStateChangeReturn _ret;
 	int is_live;
     char *srcConfig = 0;
@@ -196,7 +210,7 @@ ar2VideoOpen(char *config_in ) {
 
 	/* If no config string is supplied, we should use the environment variable, otherwise set a sane default */
 	if (!config_in || !(config_in[0])) {
-		/* None suppplied, lets see if the user supplied one from the shell */
+		/* None supplied, lets see if the user supplied one from the shell */
 		char *envconf = getenv ("ARTOOLKIT_CONFIG");
 		if (envconf && envconf[0]) {
             srcConfig = envconf;
@@ -264,13 +278,13 @@ ar2VideoOpen(char *config_in ) {
 	};
 
 	/* get the pad from the probe (the source pad seems to be more flexible) */	
-	pad = gst_element_get_pad (vid->probe, "src");
+	pad = gst_element_get_static_pad (vid->probe, "src");
 
 	/* get the peerpad aka sink */
 	peerpad = gst_pad_get_peer(pad);
 
 	/* install the probe callback for capturing */	
-	gst_pad_add_buffer_probe (pad, G_CALLBACK (cb_have_data), vid);	
+	gst_pad_add_probe (pad, GST_PAD_PROBE_TYPE_BUFFER, _artoolkit_data_callback, vid, NULL);	
 
 	g_signal_connect(pad, "notify::caps", G_CALLBACK(video_caps_notify), vid);
 

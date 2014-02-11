@@ -59,15 +59,15 @@ SET(HDRS ${CMAKE_SOURCE_DIR}/include/AR/gsub_lite.h)
 
 FILE(GLOB SRCS gsub_lite.c)
 
-ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
+#ADD_LIBRARY(${LIB_NAME} ${HDRS} ${SRCS})
 
-TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
+#TARGET_LINK_LIBRARIES(${LIB_NAME} AR)
 
-artoolkit_install(${LIB_NAME})
+#artoolkit_install(${LIB_NAME})
 
-install(FILES ${HDRS}
-	DESTINATION include/AR
-	)
+#install(FILES ${HDRS}
+#	DESTINATION include/AR
+#	)
 
 
 
