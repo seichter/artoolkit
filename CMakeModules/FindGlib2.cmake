@@ -16,28 +16,43 @@ if(GLIB2_INCLUDE_DIR AND GLIB2_LIBRARIES)
     set(GLIB2_FIND_QUIETLY TRUE)
 endif(GLIB2_INCLUDE_DIR AND GLIB2_LIBRARIES)
 
-if (NOT WIN32)
+
+if (WIN32)
+	set(${PKG_GLIB_INCLUDE_DIRS} C:/gstreamer/1.0/x86/include)
+	set(${PC_LIBXML_INCLUDEDIR} C:/gstreamer/1.0/x86/include)
+else()
    find_package(PkgConfig REQUIRED)
    pkg_check_modules(PKG_GLIB REQUIRED glib-2.0)
    pkg_check_modules(PKG_GOBJECT REQUIRED gobject-2.0)
-endif(NOT WIN32)
+endif()
 
 find_path(GLIB2_MAIN_INCLUDE_DIR glib.h
           PATH_SUFFIXES glib-2.0
-          PATHS ${PKG_GLIB_INCLUDE_DIRS} )
+          PATHS 
+		  C:/gstreamer/1.0/x86/include
+		  ${PKG_GLIB_INCLUDE_DIRS} )
 
 # search the glibconfig.h include dir under the same root where the library is found
 find_library(GLIB2_LIBRARIES
              NAMES glib-2.0
-             PATHS ${PKG_GLIB_LIBRARY_DIRS} )
+             PATHS
+			 C:/gstreamer/1.0/x86/lib
+			 ${PKG_GLIB_LIBRARY_DIRS} 
+			 )
 
 find_library(GOBJECT_LIBRARIES
           NAMES gobject-2.0
-          PATHS ${PKG_GOBJECT_LIBRARY_DIRS} )
+          PATHS 
+		  C:/gstreamer/1.0/x86/lib
+		  ${PKG_GOBJECT_LIBRARY_DIRS} )
 		  
 find_path(GLIB2_INTERNAL_INCLUDE_DIR glibconfig.h
-          PATH_SUFFIXES glib-2.0/include ../lib/glib-2.0/include
-          PATHS ${PKG_GLIB_INCLUDE_DIRS} ${PKG_GLIB_LIBRARIES} ${CMAKE_SYSTEM_LIBRARY_PATH})
+          PATH_SUFFIXES 
+		  glib-2.0/include 
+		  ../lib/glib-2.0/include
+          PATHS
+		  C:/gstreamer/1.0/x86/lib
+		  ${PKG_GLIB_INCLUDE_DIRS} ${PKG_GLIB_LIBRARIES} ${CMAKE_SYSTEM_LIBRARY_PATH})
 
 set(GLIB2_INCLUDE_DIR ${GLIB2_MAIN_INCLUDE_DIR})
 
