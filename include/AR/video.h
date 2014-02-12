@@ -93,8 +93,8 @@ extern "C" {
 //#      define AR_DLL_API extern
 //#    endif
 //#  endif
-//#else
-#  define AR_DLL_API
+#else
+    #define AR_DLL_API
 #endif
 
 	
