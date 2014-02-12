@@ -160,11 +160,11 @@ macro(artoolkit_example name source_files)
 	set_target_properties(${exe_name}
 		PROPERTIES
 		PROJECT_LABEL "Example ${name}"
-	)
+		)
 
 	artoolkit_install(${exe_name})
 
-endmacro(artoolkit_example_lite name source_files)
+endmacro(artoolkit_example name source_files)
 
 
 macro(artoolkit_example_lite name source_files)
