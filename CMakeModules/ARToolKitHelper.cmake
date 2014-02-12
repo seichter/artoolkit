@@ -142,6 +142,29 @@ macro(artoolkit_lib_install target)
 endmacro(artoolkit_lib_install target)
 
 
+macro(artoolkit_example name source_files)
+
+	set(exe_name ${name})
+
+	include_directories(${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
+
+	artoolkit_executable(${exe_name} ${source_files})
+
+	target_link_libraries(${exe_name}
+		AR
+		ARvideo
+		ARMulti
+		ARGLUtils
+		)
+
+	set_target_properties(${exe_name}
+		PROPERTIES
+		PROJECT_LABEL "Example ${name}"
+		)
+
+	artoolkit_install(${exe_name})
+
+endmacro(artoolkit_example name source_files)
 
 
 macro(artoolkit_example_lite name source_files)

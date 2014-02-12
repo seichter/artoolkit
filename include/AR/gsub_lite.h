@@ -109,7 +109,7 @@
 		along with ARToolKit; if not, write to the Free Software
 		Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  
-	@copyright 2003-2007 Philip Lamb
+    @copyright 2003-2007 Philip Lamb, 2007-2013 Hartmut Seichter
 	@updated 2006-05-23
  */
 
@@ -124,14 +124,7 @@ extern "C" {
 //	Public includes.
 // ============================================================================
 
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  ifdef _WIN32
-#    include <windows.h>
-#  endif
-#  include <GL/gl.h>
-#endif
+
 #include <AR/config.h>
 #include <AR/ar.h>		// ARUint8, AR_PIXEL_FORMAT, arDebug, arImage.
 #include <AR/param.h>	// ARParam, arParamDecompMat(), arParamObserv2Ideal()
@@ -171,59 +164,11 @@ extern "C" {
 		memory used by the settings structure.
 	@availability First appeared in ARToolKit 2.68.
  */
-typedef struct _ARGL_CONTEXT_SETTINGS *ARGL_CONTEXT_SETTINGS_REF;
 
-// ============================================================================
-//	Public globals.
-// ============================================================================
-
-#if defined(__APPLE__)
-extern int arglAppleClientStorage;
-extern int arglAppleTextureRange;
-#endif // __APPLE__
-	
 // ============================================================================
 //	Public functions.
 // ============================================================================
 	
-/*!
-    @function
-    @abstract Initialise the gsub_lite library for the current OpenGL context.
-    @discussion
-		This function performs required setup of the gsub_lite library
-		for the current OpenGL context and must be called before any other argl*()
-		functions are called for this context.
- 
-		An OpenGL context holds all of the state of the OpenGL machine, including
-		textures and display lists etc. There will usually be one OpenGL context
-		for each window displaying OpenGL content.
- 
-		Other argl*() functions whose operation depends on OpenGL state will
-		require an ARGL_CONTEXT_SETTINGS_REF. This is just so that
-		they can keep track of per-context variables.
- 
-		You should call arglCleanup() passing in the ARGL_CONTEXT_SETTINGS_REF
-		when you have finished with the library for this context.
-    @result An ARGL_CONTEXT_SETTINGS_REF. See the documentation for this type for more info.
-	@availability First appeared in ARToolKit 2.68.
-*/
-ARGL_CONTEXT_SETTINGS_REF arglSetupForCurrentContext(void);
-
-/*!
-    @function
-    @abstract Free memory used by gsub_lite associated with the specified context.
-    @discussion
-		Should be called after no more argl* functions are needed, in order
-		to prevent memory leaks etc.
- 
-		The library can be setup again for the context at a later time by calling
-		arglSetupForCurrentContext() again.
-	@param contextSettings A reference to ARGL's settings for an OpenGL
-		context, as returned by arglSetupForCurrentContext().
-	@availability First appeared in ARToolKit 2.68.
-*/
-void arglCleanup(ARGL_CONTEXT_SETTINGS_REF contextSettings);
-
 /*!
     @function
     @abstract Create an OpenGL perspective projection matrix.
@@ -255,7 +200,7 @@ void arglCleanup(ARGL_CONTEXT_SETTINGS_REF contextSettings);
 		is specified in column major order.
 	@availability First appeared in ARToolKit 2.68.
 */
-void arglCameraFrustum(const ARParam *cparam, const double focalmin, const double focalmax, GLdouble m_projection[16]);
+void arglCameraFrustum(const ARParam *cparam, const double focalmin, const double focalmax, double m_projection[16]);
 
 /*!
     @function 
