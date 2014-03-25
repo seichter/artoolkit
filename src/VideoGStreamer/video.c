@@ -16,6 +16,12 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 
+
+/* avoid XML dependency */
+
+#define GST_DISABLE_XML
+#define GST_DISABLE_LOADSAVE
+
 /* include GStreamer itself */
 #include <gst/gst.h>
 
@@ -25,9 +31,10 @@
 #include <string.h>
 
 
+#define GSTREAMER_FILTER_CAPS ""
 
 #define GSTREAMER_LAUNCH_CFG_OLD "%s ! queue ! colorspace ! video/x-raw-rgb,bpp=24,depth=24,width=%d,height=%d ! identity name=artoolkit ! fakesink sync=true"
-#define GSTREAMER_LAUNCH_CFG "%s ! queue ! colorspace ! video/x-raw-rgb,bpp=24,depth=24,width=%d,height=%d ! identity name=artoolkit ! fakesink"
+#define GSTREAMER_LAUNCH_CFG "%s ! videoconvert ! video/x-raw,format=RGB,width=%d,height=%d ! videoconvert ! identity name=artoolkit ! fakesink"
 
 
 #define APPSINK_CAPS "video/x-raw-yuv,format=(fourcc)I420"
@@ -67,24 +74,29 @@ struct _AR2VideoParamT {
 
 static AR2VideoParamT *gVid = NULL;
 
-static gboolean
-cb_have_data (GstPad    *pad,
-              GstBuffer *buffer,
-              gpointer   u_data)
+
+GstPadProbeReturn
+_artoolkit_data_callback(
+        GstPad    *pad,
+        GstPadProbeInfo *padInfo,
+        gpointer   u_data)
 {
 
     const GstCaps *caps;
     GstStructure *str;
+    GstMapInfo mapInfo;
 
     gint width,height;
     gdouble rate;
 
+    GstBuffer* buffer = gst_pad_probe_info_get_buffer(padInfo);
+
     AR2VideoParamT *vid = (AR2VideoParamT*)u_data;
 
-    if (vid == NULL) return FALSE;
+    if (vid == NULL) return GST_PAD_PROBE_DROP;
 
 
-    /* only do initialy for the buffer */
+    /* only do initially for the buffer */
     if (vid->videoBuffer == NULL && buffer)
     {
         g_print("libARvideo error! Buffer not allocated\n");
@@ -93,11 +105,24 @@ cb_have_data (GstPad    *pad,
     if (vid->videoBuffer)
     {
         vid->frame++;
-        memcpy(vid->videoBuffer, buffer->data, buffer->size);
+
+
+        if (gst_buffer_map(buffer,&mapInfo,GST_MAP_READ)) {
+
+            /* copy the mapped buffer */
+            memcpy(vid->videoBuffer,mapInfo.data,mapInfo.size);
+
+            /* check the buffer in */
+            gst_buffer_unmap(buffer,&mapInfo);
+
+            return GST_PAD_PROBE_OK;
+        }
+
     }
 
-    return TRUE;
+    return GST_PAD_PROBE_DROP;
 }
+
 
 
 static
@@ -111,7 +136,7 @@ void video_caps_notify(GObject* obj, GParamSpec* pspec, gpointer data) {
 
     AR2VideoParamT *vid = (AR2VideoParamT*)data;
 
-    caps = gst_pad_get_negotiated_caps((GstPad*)obj);
+    caps = gst_pad_get_current_caps((GstPad*)obj);
 
     if (caps) {
 
@@ -210,7 +235,6 @@ ar2VideoOpen(char *config_in ) {
     GError *error = 0;
     int i;
     GstPad *pad, *peerpad;
-    GstXML *xml;
     GstStateChangeReturn _ret;
     int is_live;
     char *srcConfig = 0;
@@ -289,13 +313,14 @@ ar2VideoOpen(char *config_in ) {
     };
 
     /* get the pad from the probe (the source pad seems to be more flexible) */
-    pad = gst_element_get_pad (vid->probe, "src");
+    pad = gst_element_get_static_pad(vid->probe, "src");
 
     /* get the peerpad aka sink */
     peerpad = gst_pad_get_peer(pad);
 
     /* install the probe callback for capturing */
-    gst_pad_add_buffer_probe (pad, G_CALLBACK (cb_have_data), vid);
+    gst_pad_add_probe (pad, GST_PAD_PROBE_TYPE_BUFFER, _artoolkit_data_callback, vid, NULL);
+
 
     g_signal_connect(pad, "notify::caps", G_CALLBACK(video_caps_notify), vid);
 
@@ -430,46 +455,46 @@ ar2VideoOpen(char *config_in ) {
     do {
 
 
-       GstMessage* msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
+        GstMessage* msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
 
 
 
-       /* Parse message */
+        /* Parse message */
         if (msg != NULL) {
-          GError *err;
-          gchar *debug_info;
+            GError *err;
+            gchar *debug_info;
 
-          switch (GST_MESSAGE_TYPE (msg)) {
+            switch (GST_MESSAGE_TYPE (msg)) {
             case GST_MESSAGE_ERROR:
-              gst_message_parse_error (msg, &err, &debug_info);
-              g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
-              g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
-              g_clear_error (&err);
-              g_free (debug_info);
-              ready = TRUE;
-              break;
+                gst_message_parse_error (msg, &err, &debug_info);
+                g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
+                g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
+                g_clear_error (&err);
+                g_free (debug_info);
+                ready = TRUE;
+                break;
             case GST_MESSAGE_EOS:
-              g_print ("End-Of-stream reached.\n");
-              break;
+                g_print ("End-Of-stream reached.\n");
+                break;
             case GST_MESSAGE_STATE_CHANGED:
-              /* We are only interested in state-changed messages from the pipeline */
-              if (GST_MESSAGE_SRC (msg) == GST_OBJECT (vid->pipeline)) {
-                GstState old_state, new_state, pending_state;
-                gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
-                g_print ("Pipeline state changed from %s to %s:\n", gst_element_state_get_name (old_state), gst_element_state_get_name (new_state));
+                /* We are only interested in state-changed messages from the pipeline */
+                if (GST_MESSAGE_SRC (msg) == GST_OBJECT (vid->pipeline)) {
+                    GstState old_state, new_state, pending_state;
+                    gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
+                    g_print ("Pipeline state changed from %s to %s:\n", gst_element_state_get_name (old_state), gst_element_state_get_name (new_state));
 
 
-                if (new_state == GST_STATE_PLAYING)
-                    ready = 1;
+                    if (new_state == GST_STATE_PLAYING)
+                        ready = 1;
 
-              }
-              break;
+                }
+                break;
             default:
-              //we should not reach here because we only asked for ERRORs and EOS and State Changes
-              g_printerr ("Unexpected message received.\n");
-              break;
-          }
-          gst_message_unref (msg);
+                //we should not reach here because we only asked for ERRORs and EOS and State Changes
+                g_printerr ("Unexpected message received.\n");
+                break;
+            }
+            gst_message_unref (msg);
         }
 
     } while (0 == ready);
