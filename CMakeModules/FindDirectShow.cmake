@@ -27,7 +27,7 @@ IF(MSVC)
   endif(MSVC71)
   
   # Find DirectX Include Directory (dshow depends on it)
-  FIND_PATH(DIRECTX_INCLUDE_DIR ddraw.h
+  find_path(DIRECTX_INCLUDE_DIR ddraw.h
     # Visual Studio product based PlatformSDK/Windows SDK
 	${MS_PLATFORMSDK_ROOT}/Include
     # Newer DirectX: dshow not included; requires Platform SDK
@@ -37,10 +37,20 @@ IF(MSVC)
     DOC "What is the path where the file ddraw.h can be found"
     NO_DEFAULT_PATH
   )
+ 
+
 
   # if DirectX found, then find DirectShow include directory
   IF(DIRECTX_INCLUDE_DIR)
-    FIND_PATH(DIRECTSHOW_INCLUDE_DIR dshow.h
+    find_path(DIRECTSHOW_DSHOWH_DIR dshow.h
+      "${DIRECTX_INCLUDE_DIR}"
+      "$ENV{ProgramFiles}/Microsoft Platform SDK for Windows Server 2003 R2/Include"
+      "$ENV{ProgramFiles}/Microsoft Platform SDK/Include"
+      DOC "What is the path where the file dshow.h can be found"
+      NO_DEFAULT_PATH
+    )
+	
+	find_path(DIRECTSHOW_QEDITH_DIR qedit.h
       "${DIRECTX_INCLUDE_DIR}"
       "$ENV{ProgramFiles}/Microsoft Platform SDK for Windows Server 2003 R2/Include"
       "$ENV{ProgramFiles}/Microsoft Platform SDK/Include"
@@ -80,12 +90,9 @@ IF(MSVC)
 ENDIF(MSVC)
 
 #---------------------------------------------------------------------
-SET(DIRECTSHOW_INCLUDE_DIRS
-  "${DIRECTX_INCLUDE_DIR}"
-  "${DIRECTSHOW_INCLUDE_DIR}"
-  )
+set(DIRECTSHOW_INCLUDE_DIRS ${DIRECTX_INCLUDE_DIR} ${DIRECTSHOW_DSHOWH_DIR} ${DIRECTSHOW_QEDITH_DIR})
 
-SET(DIRECTSHOW_LIBRARIES
+set(DIRECTSHOW_LIBRARIES
   "${DIRECTSHOW_STRMIIDS_LIBRARY}"
   "${DIRECTSHOW_QUARTZ_LIBRARY}"
   )
@@ -119,17 +126,16 @@ CHECK_CXX_SOURCE_COMPILES("
     return 0;
   }
 " DIRECTSHOW_SOURCE_COMPILES)
-SET(CMAKE_REQUIRED_INCLUDES)
-SET(CMAKE_REQUIRED_LIBRARIES)
+set(CMAKE_REQUIRED_INCLUDES)
+set(CMAKE_REQUIRED_LIBRARIES)
 
 #---------------------------------------------------------------------
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(
-  DIRECTSHOW
-  DEFAULT_MSG
-  DIRECTX_INCLUDE_DIR
-  DIRECTSHOW_INCLUDE_DIR
-  DIRECTSHOW_STRMIIDS_LIBRARY
-  DIRECTSHOW_QUARTZ_LIBRARY
-  DIRECTSHOW_SOURCE_COMPILES
-  )
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(
+	DIRECTSHOW
+	DEFAULT_MSG
+	DIRECTSHOW_INCLUDE_DIRS
+	DIRECTSHOW_STRMIIDS_LIBRARY
+	DIRECTSHOW_QUARTZ_LIBRARY
+	DIRECTSHOW_SOURCE_COMPILES
+	)

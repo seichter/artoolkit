@@ -1,5 +1,9 @@
 SET(LIB_NAME ARvideo)
 
+if(MSVC)
+	add_definitions (/W2 /wd4996 /D "_CRT_SECURE_NO_WARNINGS" /D "LIBARVIDEO_EXPORTS")
+endif()
+
 find_package(Glib2)
 find_package(LibXml2)
 

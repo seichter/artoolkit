@@ -3,6 +3,9 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 set(gsub_lighter_hdrs ${CMAKE_SOURCE_DIR}/include/AR/arGLUtils.h)
 set(gsub_lighter_srcs glutils.c)
 
+if(MSVC)
+	add_definitions (/W2 /wd4996 /D "_CRT_SECURE_NO_WARNINGS")
+endif()
 
 add_library(ARGLUtils ${gsub_lighter_hdrs} ${gsub_lighter_srcs})
 

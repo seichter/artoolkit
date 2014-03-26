@@ -72,17 +72,17 @@ endif(APPLE)
 #
 if(MSVC)
 
-	set(FREEGLUT_ROOT_DIR "lib/SRC/_ext/freeglut")
+#	set(FREEGLUT_ROOT_DIR "lib/SRC/_ext/freeglut")
 
 	# compile internal GLUT copy
-	add_subdirectory(${FREEGLUT_ROOT_DIR}/src)
+#	add_subdirectory(${FREEGLUT_ROOT_DIR}/src)
 
 	#
 	# Add our internal copy of FreeGLUT
 	#
-	set(GLUT_ROOT_PATH "${CMAKE_SOURCE_DIR}/${FREEGLUT_ROOT_DIR}" CACHE PATH "GLUT root folder")
-	set(GLUT_LIBRARIES glut)
-	set(GLUT_FOUND TRUE)
+#	set(GLUT_ROOT_PATH "${CMAKE_SOURCE_DIR}/${FREEGLUT_ROOT_DIR}" CACHE PATH "GLUT root folder")
+#	set(GLUT_LIBRARIES glut)
+#	set(GLUT_FOUND TRUE)
 	
 endif(MSVC)
 

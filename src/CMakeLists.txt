@@ -37,7 +37,12 @@ install(FILES
 
 # Video
 #if(USE_GSTREAMER)
-add_subdirectory(VideoGStreamer)
+
+if(WIN32)
+	add_subdirectory(VideoWin32DirectShow)
+else()
+	add_subdirectory(VideoGStreamer)
+endif()
 #endif(USE_GSTREAMER)
 
 

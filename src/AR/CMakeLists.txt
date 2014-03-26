@@ -58,6 +58,10 @@ list(APPEND HDRS
 	${CMAKE_SOURCE_DIR}/include/AR/matrix.h
 	)
 
+if(MSVC)
+	add_definitions (/W2 /wd4996 /D "_CRT_SECURE_NO_WARNINGS")
+endif()
+
 add_library(${LIB_NAME} ${SRCS} ${HDRS})
 
 #set_target_properties(${LIB_NAME}
@@ -68,6 +72,8 @@ add_library(${LIB_NAME} ${SRCS} ${HDRS})
 if(UNIX)
 	target_link_libraries(${LIB_NAME} m)
 endif()
+
+
 
 artoolkit_install(${LIB_NAME})	
 	

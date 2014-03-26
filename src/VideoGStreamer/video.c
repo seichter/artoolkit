@@ -41,7 +41,7 @@
 
 
 #if defined(_WIN32)
-
+#define GSTREAMER_TEST_LAUNCH_CFG "videotestsrc"
 #elif defined(__APPLE__)
 
 #elif defined(__linux)
@@ -240,6 +240,10 @@ ar2VideoOpen(char *config_in ) {
     int is_live;
     char *srcConfig = 0;
     char *fullConfig = 0;
+
+	GstBus* bus;
+
+	int ready = 0;
 
     /* If no config string is supplied, we should use the environment variable, otherwise set a sane default */
     if (!config_in || !(config_in[0])) {
@@ -450,10 +454,10 @@ ar2VideoOpen(char *config_in ) {
 
     gst_element_set_state (vid->pipeline, GST_STATE_PLAYING);
 
-    int ready = 0;
 
-    GstBus *bus = gst_element_get_bus (vid->pipeline);
-    do {
+    bus = gst_element_get_bus (vid->pipeline);
+    
+	do {
 
 
         GstMessage* msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
