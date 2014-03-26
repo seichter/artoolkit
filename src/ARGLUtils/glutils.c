@@ -46,6 +46,7 @@
 //	Private includes.
 // ============================================================================
 #include <AR/arGLUtils.h>
+#include <AR/param.h>
 
 #include <stdio.h>		// fprintf(), stderr
 #include <string.h>		// strchr(), strstr(), strlen()

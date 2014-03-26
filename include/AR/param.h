@@ -120,7 +120,9 @@ int  arParamDecomp( ARParam *source, ARParam *icpara, double trans[3][4] );
 * \param trans XXXBK
 * \return  XXXBK
 */
-int  arParamDecompMat( double source[3][4], double cpara[3][4], double trans[3][4] );
+int  arParamDecompMat(double source[3][4], double cpara[3][4], double trans[3][4] );
+
+
 
 /** \fn int int arParamIdeal2Observ( const double dist_factor[4], const double ix, const double iy,
 						 double *ox, double *oy )

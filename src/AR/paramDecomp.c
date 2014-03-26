@@ -13,12 +13,17 @@
 
 #include <stdio.h>
 #include <math.h>
-#include <AR/param.h>
-#include <AR/matrix.h>
+
+#include "AR/param.h"
+#include "AR/matrix.h"
 
 static double norm( double a, double b, double c );
 static double dot( double a1, double a2, double a3,
                    double b1, double b2, double b3 );
+
+
+//static arParamDecompMat(double source[3][4], double cpara[3][4], double trans[3][4] );
+
 
 int  arParamDecomp( ARParam *source, ARParam *icpara, double trans[3][4] )
 {
@@ -32,7 +37,7 @@ int  arParamDecomp( ARParam *source, ARParam *icpara, double trans[3][4] )
     return arParamDecompMat( source->mat, icpara->mat, trans );
 }
 
-int  arParamDecompMat( double source[3][4], double cpara[3][4], double trans[3][4] )
+int arParamDecompMat(double source[3][4], double cpara[3][4], double trans[3][4] )
 {
     int       r, c;
     double    Cpara[3][4];

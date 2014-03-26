@@ -58,19 +58,12 @@ list(APPEND HDRS
 	${CMAKE_SOURCE_DIR}/include/AR/matrix.h
 	)
 
-
-
-if(NOT WIN32)
-	add_definitions(-fPIC)
-endif(NOT WIN32)
-
 add_library(${LIB_NAME} ${SRCS} ${HDRS})
 
-
-set_target_properties(${LIB_NAME}
-	PROPERTIES
-	POSITION_INDEPENDENT_CODE TRUE
-	)
+#set_target_properties(${LIB_NAME}
+#	PROPERTIES
+#	POSITION_INDEPENDENT_CODE TRUE
+#	)
 
 if(UNIX)
 	target_link_libraries(${LIB_NAME} m)
