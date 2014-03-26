@@ -67,7 +67,7 @@ typedef struct {
     SDL_Renderer    *renderer;
 
     SDL_GLContext   *context;
-} DrawState;
+} AppState;
 
 
 Uint32              gsBGTextureFormat = SDL_PIXELFORMAT_RGB24;
@@ -95,7 +95,7 @@ static int			gPatt_id;				// Per-marker, but we are using only 1 marker.
 #define VIEW_DISTANCE_MAX		100.0		// Objects further away from the camera than this will not be displayed.
 
 
-static int createBackgroundImage(DrawState* state,int width,int height)
+static int createBackgroundImage(AppState* state,int width,int height)
 {
 
     state->background = SDL_CreateTexture(state->renderer,gsBGTextureFormat,
@@ -164,7 +164,7 @@ static void DrawCube(void)
 
 }
 
-static int renderScene(DrawState* state)
+static int renderScene(AppState* state)
 {
 
     if (gPatt_found) {
@@ -204,7 +204,7 @@ static int renderScene(DrawState* state)
 }
 
 
-void renderBackgroundImage(DrawState* state,Uint8* image)
+void renderBackgroundImage(AppState* state,Uint8* image)
 {
     Uint8 *pixels = 0;
     int pitch1;
@@ -276,7 +276,7 @@ void renderBackgroundImage(DrawState* state,Uint8* image)
     }
 }
 
-static int update(DrawState* state)
+static int update(AppState* state)
 {
 
     ARMarkerInfo    *marker_info;					// Pointer to array holding the details of detected markers.
@@ -381,7 +381,7 @@ static int setupMarker(const char *patt_name, int *patt_id)
 int main(int argc, char *argv[])
 {
 
-    DrawState state;
+    AppState state;
 
     char *vconf = "";
 

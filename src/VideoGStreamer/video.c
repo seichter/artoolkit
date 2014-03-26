@@ -109,6 +109,7 @@ _artoolkit_data_callback(
 
         if (gst_buffer_map(buffer,&mapInfo,GST_MAP_READ)) {
 
+
             /* copy the mapped buffer */
             memcpy(vid->videoBuffer,mapInfo.data,mapInfo.size);
 
