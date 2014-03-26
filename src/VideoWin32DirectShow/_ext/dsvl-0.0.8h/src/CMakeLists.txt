@@ -1,0 +1,58 @@
+#
+# CMake build system for DSVL 0.0.8h 
+# (c) Copyrights 2007-2008 Hartmut Seichter, HIT Lab NZ
+#
+
+if(MSVC)
+	add_definitions (/W2 /wd4996 /D "_CRT_SECURE_NO_WARNINGS")
+endif()
+
+set(lib_name DSVL)
+
+find_package(DirectShow)
+
+set(SRCS
+	DSVL.cpp
+	DSVL_GraphManager.cpp
+	DSVL_Helpers.cpp
+	DSVL_PixelFormat.cpp
+	IEEE1394_id.cpp
+	DSVL.h
+	DSVL_GraphManager.h
+	DSVL_Helpers.h
+	DSVL_PixelFormat.h
+	DSVL_PixelFormatTypes.h
+)
+
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${DIRECTSHOW_INCLUDE_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/../extlib/tinyxml
+	)
+
+add_definitions(-DDSVL_EXPORTS -DTIXML_USE_STL)
+
+add_library(DSVL SHARED ${SRCS})
+
+if(NOT CMAKE_PROJECT_NAME MATCHES "DSVL")
+	set_target_properties(DSVL
+		PROPERTIES
+		PROJECT_LABEL "Dependency DirectShow Video Library"
+	)
+endif(NOT CMAKE_PROJECT_NAME MATCHES "DSVL")
+
+
+target_link_libraries(DSVL tinyxml ${DIRECTSHOW_LIBRARIES})
+
+if   (${CMAKE_BUILD_TYPE} MATCHES Debug)
+	target_link_libraries(DSVL comsuppd comsuppwd)
+else (${CMAKE_BUILD_TYPE} MATCHES Debug)
+	target_link_libraries(DSVL comsupp comsuppw)
+endif(${CMAKE_BUILD_TYPE} MATCHES Debug)
+
+install(TARGETS DSVL
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+)
+
+
