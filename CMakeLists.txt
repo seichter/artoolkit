@@ -1,10 +1,10 @@
 ##############################################################################
 # CMake build system for ARToolKit 2.7.x                                     #
 #                                                                            #
-# (c) Copyright 2007-2013 Hartmut Seichter                                   #
+# (c) Copyright 2007-2014 Hartmut Seichter                                   #
 ##############################################################################
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.9)
 
 project(ARToolKit)
 
@@ -13,7 +13,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules" ${CMAKE_MODULE_PATH})
 set(ARTOOLKIT_VERSION_MAJOR 2)
 set(ARTOOLKIT_VERSION_MINOR 8)
 set(ARTOOLKIT_VERSION_TINY  0)
-set(ARTOOLKIT_VERSION_REV   0613)
+set(ARTOOLKIT_VERSION_REV   0314)
 
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/build CACHE PATH "installation directory" FORCE)

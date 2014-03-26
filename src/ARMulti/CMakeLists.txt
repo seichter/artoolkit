@@ -14,6 +14,10 @@ set(HDRS
 
 add_library(${lib_name} STATIC ${HDRS} ${SRCS})
 
+set_target_properties(${lib_name}
+	PROPERTIES
+	POSITION_INDEPENDENT_CODE TRUE
+	)
 
 artoolkit_install(${lib_name})	
 		
